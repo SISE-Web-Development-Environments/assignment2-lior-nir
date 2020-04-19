@@ -1,27 +1,37 @@
 var context;
 var shape = new Object();
 var board;
-var score;
+var score ;
 var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
 var MonsterInterval;
-var NumberOfMonsters=2;
+var NumberOfMonsters=1;
 var NumberOfdisqualifications = 5 ;
 var NumberOfPointsForWin = 150 ;
+var timeForGame ;
+var GameTime ;
 
 class ball{
-	constructor(Precentage ,color , points) {
+	constructor(Precentage ,color , points , image) {
 		this.Precentage = Precentage ;
 		this.color = color;
 		this.points = points;
+		this.image = image ;
 	}
 }
 
-var firstBallColor= new ball(60,"blue", 5);
-var secondBallColor=  new ball(30,"green", 15);
-var thirdBallColor=  new ball(10,"red", 25);
+BlueMonsterImage = new Image(60,60);
+BlueMonsterImage.src = "images/blueMonster.png";
+
+redMonsterImage = new Image(60,60);
+redMonsterImage.src = "images/redMonster.png";
+
+
+var firstBallColor= new ball(60,"blue", 5 , BlueMonsterImage );
+var secondBallColor=  new ball(30,"green", 15 , redMonsterImage);
+var thirdBallColor=  new ball(10,"red", 25 , redMonsterImage);
 
 var ballAmount = 30 ;
 var ballsMixedArray=[];
@@ -36,6 +46,8 @@ class Monster{
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
+	score = 0 ;
+	GameTime = new Date();
 	mixBalls();
 	Start();
 });
@@ -70,8 +82,8 @@ function mixBalls() {
 	}
 }
 function Start() {
+	//window.alert("score:"+score);
 	board = new Array();
-	score = 0;
 	pac_color = "yellow";
 	var cnt = 100;
 	var food_remain = ballAmount;
@@ -171,7 +183,7 @@ function Draw(packmanSide) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
-
+	lblGame_time.value = GameTime;
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
 			var center = new Object();
@@ -199,10 +211,11 @@ function Draw(packmanSide) {
 		//window.alert("r:"+monsters[h].row+" c:"+monsters[h].column);
 		let x = monsters[h].row * 60 + 30;
 		let y = monsters[h].column * 60 + 30;
-		context.beginPath();
-		context.rect(x - 30, y - 30, 60, 60);
-		context.fillStyle = "red"; //color
-		context.fill();
+		context.drawImage(monsters[h].image , x, y);
+		// context.beginPath();
+		// context.rect(x - 30, y - 30, 60, 60);
+		// context.fillStyle = "red"; //color
+		// context.fill();
 	}
 }
 
@@ -221,13 +234,13 @@ function UpdateMonstersPosition() {
 			window.clearInterval(MonsterInterval);
 			NumberOfdisqualifications -- ;
 			if(NumberOfdisqualifications<1){
-				window.alert("Game Over!");
+				window.alert("Loser!");
 			}else{
-				window.alert("Number of stayed games:"+NumberOfdisqualifications);
 				score = score - 10 ;
 				if(score < 0 ){
 					score = 0 ;
 				}
+				window.alert("Number of stayed games:"+NumberOfdisqualifications);
 				mixBalls();
 				Start();
 			}
@@ -259,9 +272,9 @@ function UpdatePosition() {
 			shape.i++;
 		}
 	}
-	if (board[shape.i][shape.j] == 1) {
-		score++;
-	}
+	// if (board[shape.i][shape.j] == 1) {
+	// 	score++;
+	// }
 //--------------------------
 	if(board[shape.i][shape.j] instanceof ball){
 		score=score+board[shape.i][shape.j].points;
@@ -278,8 +291,13 @@ function UpdatePosition() {
 	}
 	if (score >= NumberOfPointsForWin) {
 		window.clearInterval(interval);
-		window.alert("Game completed");
-	} else {
+		window.clearInterval(MonsterInterval);
+		window.alert("Winner!!!");
+	} else if(GameTime > timeForGame) {
+		window.clearInterval(interval);
+		window.clearInterval(MonsterInterval);
+		window.alert("You are better than "+score+" points!");
+	}else{
 		Draw(x);
 	}
 }
