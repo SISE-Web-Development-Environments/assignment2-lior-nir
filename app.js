@@ -91,15 +91,22 @@ function validationSetUp(){
 		event.preventDefault();
 	  });*/
 }
+
+function hideAll(){
+	$("#welcome").hide();
+	$("#login").hide();
+	$("#register").hide();
+	$("#gameScreen").hide();
+	$("#settings").hide();
+}
+
 function goToWelcome(){
-	  $("#welcome").show();
-	  $("#login").hide();
-	  $("#register").hide();
+	hideAll();
+	$("#welcome").show();
 }
 
 function goToRegiser(){
-	$("#welcome").hide();
-	$("#login").hide();
+	hideAll();
 	$("#register").show();
 	$( function() {
 		$( "#datepicker" ).datepicker();
@@ -108,9 +115,9 @@ function goToRegiser(){
 }
 
 function goToLogin(){
-	$("#welcome").hide();
+	hideAll();
 	$("#login").show();
-	$("#register").hide();
+	loginToGame();
 }
 
 function processForm(){
@@ -118,31 +125,37 @@ function processForm(){
 }
 
 function loginToGame(){
-	let username = $("#usernameLog").val();
-	let password = $("#passwordLog").val();
-	//check if exists in the system
-	let found = false;
-	for (var i = 0; i < sessionStorage.length && found == false; i++){
-		let item = (sessionStorage.getItem(sessionStorage.key(i)));
-		if(sessionStorage.key(i) == username & item == password){
-			//found user, successful login
-			found = true;
-			alert("found the user "+username);
-			$("#login").hide();
-			$("#settings").show();
+	$("form[name='logination']").validate({
+		submitHandler: function(form) {
+			let username = $("#usernameLog").val();
+			let password = $("#passwordLog").val();
+			//check if exists in the system
+			let found = false;
+			for (var i = 0; i < sessionStorage.length && found == false; i++){
+				let item = (sessionStorage.getItem(sessionStorage.key(i)));
+				if(sessionStorage.key(i) == username & item == password){
+					//found user, successful login
+					found = true;
+					alert("found the user "+username);
+					goToSettings();
+				}
+			}
+			if(found == false){
+				alert("user name or password incorrect");
+			}
+			$('#logination')[0].reset();
 		}
-	}
-	if(found == false){
-		alert("user name or password incorrect");
-	}
-	$('#logination')[0].reset();
+	});
+	
+}
+
+function goToSettings(){
+	hideAll();
+	$("#settings").show();
 }
 
 function goToGame(){
-	$("#welcome").hide();
-	$("#login").hide();
-	$("#register").hide();
-	$("#settings").hide();
+	hideAll();
 	$("#gameScreen").show();
 	Start();
 }
