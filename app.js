@@ -1,3 +1,30 @@
+class ball{
+	constructor(Precentage ,color , points ) {
+		this.Precentage = Precentage ;
+		this.color = color;
+		this.points = points;
+
+	}
+}
+class Monster{
+	constructor(row , column , image) {
+		this.row = row;
+		this.column = column;
+		this.image = image ;
+	}
+}
+
+var ballAmount = 30 ;
+var NumberOfMonsters=2;
+var timeForGame = 60 ;
+
+var firstBallColor= new ball(60,"blue", 5 );
+var secondBallColor=  new ball(30,"green", 15 );
+var thirdBallColor=  new ball(10,"red", 25 );
+
+var monsters_TIME_OUT = 750 ;
+
+
 var context;
 var shape = new Object();
 var board;
@@ -7,20 +34,12 @@ var start_time;
 var time_elapsed;
 var interval;
 var MonsterInterval;
-var NumberOfMonsters=1;
+
 var NumberOfdisqualifications = 5 ;
 var NumberOfPointsForWin = 150 ;
-var timeForGame ;
+
 var GameTime ;
 
-class ball{
-	constructor(Precentage ,color , points , image) {
-		this.Precentage = Precentage ;
-		this.color = color;
-		this.points = points;
-		this.image = image ;
-	}
-}
 
 BlueMonsterImage = new Image(60,60);
 BlueMonsterImage.src = "images/blueMonster.png";
@@ -29,20 +48,12 @@ redMonsterImage = new Image(60,60);
 redMonsterImage.src = "images/redMonster.png";
 
 
-var firstBallColor= new ball(60,"blue", 5 , BlueMonsterImage );
-var secondBallColor=  new ball(30,"green", 15 , redMonsterImage);
-var thirdBallColor=  new ball(10,"red", 25 , redMonsterImage);
 
-var ballAmount = 30 ;
+
 var ballsMixedArray=[];
 var monsters =[];
 
-class Monster{
-	constructor(row , column) {
-		this.row = row;
-		this.column = column;
-	}
-}
+
 
 $(document).ready(function() {
 	//iniatate p
@@ -53,10 +64,11 @@ $(document).ready(function() {
 	goToWelcome();
 	$("#gameScreen").hide();
 	$("#settings").hide();
-	context = canvas.getContext("2d");
-	score = 0 ;
-	GameTime = new Date();
-	mixBalls();
+	// context = canvas.getContext("2d");
+	// context.drawImage(redMonsterImage,0,0,60,60);
+	// score = 0 ;
+	// GameTime = new Date();
+	// mixBalls();
 //	Start();
 });
 function validationSetUp(){
@@ -196,6 +208,11 @@ function goToSettings(){
 function goToGame(){
 	hideAll();
 	$("#gameScreen").show();
+
+	context = canvas.getContext("2d");
+	score = 0 ;
+	GameTime = new Date();
+	mixBalls();
 	Start();
 }
 
@@ -268,15 +285,19 @@ function Start() {
 		}
 	}
 	while (food_remain > 0) {
-		var emptyCell = findRandomEmptyCell(board);
+		let emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = ballsMixedArray[nextBall] ;
 		board[emptyCell[0]][emptyCell[1]] = 5 ; ////////////////////////////////////////////// fix later need to be not 5
 		nextBall++;
 		food_remain--;
 	}
 	for(let i = 0 ; i < NumberOfMonsters ; i ++) {
-		var emptyCell = findRandomEmptyCell(board);
-		monsters[i] = new Monster(emptyCell[0] , emptyCell[1]);
+		let emptyCell = findRandomEmptyCell(board);
+		let image = redMonsterImage;
+		if(i==0){
+			image =BlueMonsterImage;
+		}
+		monsters[i] = new Monster(emptyCell[0] , emptyCell[1] , image);
 		//window.alert("r:"+monsters[i].row+" c:"+monsters[i].column);
 		board[emptyCell[0]][emptyCell[1]] = 5 ; ////////////////////////////////////////////// fix later need to be not 5
 	}
@@ -296,7 +317,7 @@ function Start() {
 		false
 	);
 	interval = setInterval(UpdatePosition, 250);
-	MonsterInterval = setInterval(UpdateMonstersPosition, 750);
+	MonsterInterval = setInterval(UpdateMonstersPosition, monsters_TIME_OUT);
 }
 
 function findRandomEmptyCell(board) {
@@ -357,7 +378,7 @@ function Draw(packmanSide) {
 		//window.alert("r:"+monsters[h].row+" c:"+monsters[h].column);
 		let x = monsters[h].row * 60 + 30;
 		let y = monsters[h].column * 60 + 30;
-		context.drawImage(monsters[h].image , x, y);
+		context.drawImage(monsters[h].image , x, y,60,60);
 		// context.beginPath();
 		// context.rect(x - 30, y - 30, 60, 60);
 		// context.fillStyle = "red"; //color
