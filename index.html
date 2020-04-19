@@ -3,23 +3,138 @@
 	<head>
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<!-- jQuery Modal -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js" type="text/javascript"></script>
+
 	</head>
 
 	<body>
-		<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
+		<div class="header">
+			<h1>Header</h1>
 		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
+
+		<div class="topnav">
+			<a  href="#" onclick="goToWelcome()">Welcome</a>
+			<a  href="#" onclick="goToRegiser()">Register</a>
+			<a  href="#" onclick="goToLogin()">Login</a>
+			<a  href="#" data-toggle="modal" data-target="#myModal">About</a>
 		</div>
-		<div id="Game_time">
-			<label for="lblGame_time">TIME:</label>
-			<input id="lblGame_time" type="text" />
+
+		<div class="content" id="welcome">
+			<br>
+			<h1 style="text-align: center;">Welcome! (add logo)</h1>
+			<br><br><br>
+			<div id="btnWrapper" style="text-align: center;">
+				<button id="registerBtn" onclick="goToRegiser()">Register!</button>
+				<button id="loginBtn" onclick="goToLogin()">Login!</button>
+			</div>
+		  </div>
+
+		  <div class="content" id="register">
+			<h2>Register</h2>
+			<form id="registration" name="registration">
+
+				<label for="username">User Name</label>
+				<input type="text" name="username" id="username"/>
+
+				<label for="password">Password</label>
+				<input type="password" name="password" id="password" />
+
+				<label for="firstname">First Name</label>
+				<input type="text" name="firstname" id="firstname" />
+
+				<label for="lastname">Last Name</label>
+				<input type="text" name="lastname" id="lastname" />
+
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email" />
+
+				<label for="date">Birth Date</label>
+				<input type="date" name="date" id="date" />
+
+				<button type="submit"  name="submit" id="submit" >Register</button>
+
+			  </form>
+		  </div>
+
+
+		  <div class="content" id="login" >
+			<h2>Login</h2>
+			<form  id="logination" name="logination">
+
+				<label for="usernameLog">User Name</label>
+				<input type="text" name="usernameLog" id="usernameLog"/>
+
+				<label for="passwordLog">Password</label>
+				<input type="password" name="passwordLog" id="passwordLog" />
+
+				<button type="submit"  name="submitLog" id="submitLog" >Login</button>
+
+			  </form>
+		  </div>
+
+
+		  <div class="content" id="settings">
+			<br>
+			<h1 style="text-align: center;">Settings Page </h1>
+			<br><br><br><br><br><br><br><br><br>
+			<div  style="text-align: center;">
+			<button id="gameBtn" onclick="goToGame()">Start Game!</button>
+		   </div>
+		  </div>
+
+		  <div class="content" id="gameScreen">
+			<div id="score">
+				<label for="lblScore">SCORE:</label>
+				<input id="lblScore" type="text" />
+			</div>
+			<div id="time">
+				<label for="lblTime">TIME:</label>
+				<input id="lblTime" type="text" />
+			</div>
+			  <div id="Game_time">
+				  <label for="lblGame_time">TIME:</label>
+				  <input id="lblGame_time" type="text" />
+			  </div>
+			<div id="game">
+				<canvas id="canvas" height="600" width="600"></canvas>
+			</div>
 		</div>
-		<div id="game">
-			<canvas id="canvas" height="600" width="600"></canvas>
-		</div>
+
+
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" role="dialog" tabindex='-1'>
+				<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">About</h4>
+					</div>
+					<div class="modal-body">
+					<p>Some text in the modal.</p>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+				</div>
+			</div>
+
+
+		<div class="footer">
+			<p style="font-size: large;"><b>Made by Nir Dzouraev and Lior Shaposhnikov</b>
+			</p>
+		  </div>
+
+
+
+
 	</body>
 </html>
