@@ -4,36 +4,31 @@
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css" />
+		<!-- jQuery Modal -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	</head>
 
 	<body>
-	<!--	<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
-		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
-		</div>
-		<div id="game">
-			<canvas id="canvas" height="600" width="600"></canvas>
-		</div>
--->
 		<div class="header">
 			<h1>Header</h1>
 		</div>
 		
 		<div class="topnav">
-			<a onclick="goToWelcome()">Welcome</a>
-			<a onclick="goToRegiser()">Register</a>
-			<a onclick="goToLogin()">Login</a>
-			<a onclick="goToAbout()">About</a>
+			<a  href="#" onclick="goToWelcome()">Welcome</a>
+			<a  href="#" onclick="goToRegiser()">Register</a>
+			<a  href="#" onclick="goToLogin()">Login</a>
+			<a  href="#" data-toggle="modal" data-target="#myModal">About</a>
 		</div>
 	
 		<div class="content" id="welcome">
-			<h2>Welcome</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+			<br>
+			<h1 style="text-align: center;">Welcome! (add logo)</h1>
+			<br><br><br>
+			<div id="btnWrapper" style="text-align: center;">
+				<button id="registerBtn" onclick="goToRegiser()">Register!</button>
+				<button id="loginBtn" onclick="goToLogin()">Login!</button>
+			</div>
 		  </div>
 
 		  <div class="content" id="register">
@@ -48,20 +43,49 @@
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
 		  </div>
 
-		  <div class="content" id="about">
-			<h2>About</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
-		  </div>
+				<!-- Modal -->
+		<div class="modal fade" id="myModal" role="dialog" tabindex='-1'>
+			<div class="modal-dialog">
+			
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">About</h4>
+				</div>
+				<div class="modal-body">
+				<p>Some text in the modal.</p>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+			
+			</div>
+		</div>
+		  
+		  <div class="content" id="gameScreen">
+			<div id="score">
+				<label for="lblScore">SCORE:</label>
+				<input id="lblScore" type="text" />
+			</div>
+			<div id="time">
+				<label for="lblTime">TIME:</label>
+				<input id="lblTime" type="text" />
+			</div>
+			<div id="game">
+				<canvas id="canvas" height="600" width="600"></canvas>
+			</div>
+		</div>
+
 
 		<div class="footer">
 			<p style="font-size: large;"><b>Made by Nir Dzouraev and Lior Shaposhnikov</b>
 			</p>
 		  </div>
 
-		  <div class="content" id="game">
-			<canvas id="canvas" height="600" width="600"></canvas>
-		</div>
+		 
+
 
 	</body>
 </html>

@@ -9,36 +9,32 @@ var interval;
 
 $(document).ready(function() {
 	goToWelcome();
-	$("#game").hide();
-//	context = canvas.getContext("2d");
-//	Start();
+	$("#gameScreen").hide();
+	context = canvas.getContext("2d");
+	Start();
 });
 
 function goToWelcome(){
 	  $("#welcome").show();
 	  $("#login").hide();
-	  $("#about").hide();
 	  $("#register").hide();
 }
 
 function goToRegiser(){
 	$("#welcome").hide();
 	$("#login").hide();
-	$("#about").hide();
 	$("#register").show();
 }
 
 function goToLogin(){
 	$("#welcome").hide();
 	$("#login").show();
-	$("#about").hide();
 	$("#register").hide();
 }
 
 function goToAbout(){
 	$("#welcome").hide();
 	$("#login").hide();
-	$("#about").show();
 	$("#register").hide();
 }
 

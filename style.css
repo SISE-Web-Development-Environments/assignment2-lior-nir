@@ -30,7 +30,13 @@
   /* Middle column */
 	.content {
 	width: 80%;
-	height: 470px;
+	height: 570px;
+	margin-left: 25px;
+  }
+
+   #gameScreen{
+	width: 80%;
+	height: 680px;
 	margin-left: 25px;
   }
 
@@ -41,3 +47,29 @@
 	text-align: center;
   }
   
+  /*For btns*/
+  #registerBtn, #loginBtn {
+	display:inline-block;
+	margin-right: 50px;
+	width: 220px;
+	font-size: large;
+	font-weight: bold;
+	color: #fff !important;
+	text-decoration: none;
+	background: #ee4440;
+	padding: 20px;
+	border-radius: 5px;
+	display: inline-block;
+	border: none;
+	transition: all 0.4s ease 0s;
+	}
+
+/*For btns*/
+	#registerBtn:hover, #loginBtn:hover {
+	background: #434343;
+	letter-spacing: 1px;
+	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+	transition: all 0.4s ease 0s;
+	}
