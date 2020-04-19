@@ -48,7 +48,7 @@
   }
   
   /*For btns*/
-  #registerBtn, #loginBtn {
+  #registerBtn, #loginBtn, #gameBtn {
 	display:inline-block;
 	margin-right: 50px;
 	width: 220px;
@@ -65,7 +65,7 @@
 	}
 
 /*For btns*/
-	#registerBtn:hover, #loginBtn:hover {
+	#registerBtn:hover, #loginBtn:hover ,#gameBtn:hover {
 	background: #434343;
 	letter-spacing: 1px;
 	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
@@ -73,3 +73,44 @@
 	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
 	transition: all 0.4s ease 0s;
 	}
+
+	/* For Register*/
+	  
+	  form {
+		width: 50%;
+		padding: 20px;
+		background: #6b94bc;
+		color: #000000;
+		-moz-border-radius: 4px;
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+	  }
+	  form label,
+	  form input,
+	  form button {
+		border: 0;
+		margin-bottom: 3px;
+		display: block;
+		width: 100%;
+	  }
+	  form input {
+		height: 25px;
+		line-height: 25px;
+		background: #fff;
+		color: #000;
+		padding: 0 6px;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	  }
+	  form button {
+		height: 30px;
+		line-height: 30px;
+		background: #e67e22;
+		color: #fff;
+		margin-top: 10px;
+		cursor: pointer;
+	  }
+	  form .error {
+		color: #ff0000;
+	  }
