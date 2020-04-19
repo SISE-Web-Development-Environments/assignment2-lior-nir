@@ -30,10 +30,12 @@ var shape = new Object();
 var board;
 var score ;
 var pac_color;
-var start_time;
+var start_time  ;
+var pause_time ;
 var time_elapsed;
 var interval;
 var MonsterInterval;
+var tempTime;
 
 var NumberOfdisqualifications = 5 ;
 var NumberOfPointsForWin = 150 ;
@@ -41,10 +43,11 @@ var NumberOfPointsForWin = 150 ;
 var GameTime ;
 
 
-BlueMonsterImage = new Image(60,60);
+var BlueMonsterImage = new Image();
 BlueMonsterImage.src = "images/blueMonster.png";
 
-redMonsterImage = new Image(60,60);
+
+var redMonsterImage = new Image();
 redMonsterImage.src = "images/redMonster.png";
 
 
@@ -62,7 +65,7 @@ $(document).ready(function() {
 	p.password = p;*/
 	sessionStorage.setItem("p", "p");
 	goToWelcome();
-	$("#gameScreen").hide();
+	//$("#gameScreen").hide();
 	$("#settings").hide();
 	// context = canvas.getContext("2d");
 	// context.drawImage(redMonsterImage,0,0,60,60);
@@ -208,11 +211,13 @@ function goToSettings(){
 function goToGame(){
 	hideAll();
 	$("#gameScreen").show();
-
 	context = canvas.getContext("2d");
 	score = 0 ;
-	GameTime = new Date();
+//	GameTime = new Date();
 	mixBalls();
+	start_time = new Date();
+	pause_time = new Date();
+	tempTime = 0 ;
 	Start();
 }
 
@@ -251,7 +256,11 @@ function Start() {
 	var cnt = 100;
 	var food_remain = ballAmount;
 	var pacman_remain = 1;
-	start_time = new Date();
+//	start_time = new Date();
+//window.alert(pause_time/1000);
+
+	let now = new Date();
+	tempTime = tempTime + (now-pause_time)/1000 ;
 	var nextBall=0;
 	for (var i = 0; i < 10; i++) {
 		board[i] = new Array();
@@ -291,16 +300,20 @@ function Start() {
 		nextBall++;
 		food_remain--;
 	}
+//	window.alert("hi!");
 	for(let i = 0 ; i < NumberOfMonsters ; i ++) {
 		let emptyCell = findRandomEmptyCell(board);
 		let image = redMonsterImage;
 		if(i==0){
 			image =BlueMonsterImage;
 		}
+
 		monsters[i] = new Monster(emptyCell[0] , emptyCell[1] , image);
 		//window.alert("r:"+monsters[i].row+" c:"+monsters[i].column);
 		board[emptyCell[0]][emptyCell[1]] = 5 ; ////////////////////////////////////////////// fix later need to be not 5
 	}
+	//window.alert("done!");
+
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -350,7 +363,6 @@ function Draw(packmanSide) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
-	lblGame_time.value = GameTime;
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
 			var center = new Object();
@@ -384,6 +396,7 @@ function Draw(packmanSide) {
 		// context.fillStyle = "red"; //color
 		// context.fill();
 	}
+
 }
 
 function UpdateMonstersPosition() {
@@ -403,6 +416,7 @@ function UpdateMonstersPosition() {
 			if(NumberOfdisqualifications<1){
 				window.alert("Loser!");
 			}else{
+				pause_time = new Date();
 				score = score - 10 ;
 				if(score < 0 ){
 					score = 0 ;
@@ -452,7 +466,7 @@ function UpdatePosition() {
 	//-----------------------------------------------------------
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
-	time_elapsed = (currentTime - start_time) / 1000;
+	time_elapsed = (currentTime - start_time) / 1000 - tempTime;
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
