@@ -15,7 +15,6 @@ class Monster{
 }
 
 
-
 var monsters_TIME_OUT = 750 ;
 
 
@@ -33,7 +32,6 @@ var tempTime;
 
 var NumberOfdisqualifications = 5 ;
 var NumberOfPointsForWin = 150 ;
-
 
 
 
