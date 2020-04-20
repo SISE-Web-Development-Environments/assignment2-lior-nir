@@ -78,12 +78,51 @@
 		  </div>
 
 
-		  <div class="content" id="settings">
+		  <div class="content" id="settings" style="height: 760px;">
 			<br>
 			<h1 style="text-align: center;">Settings Page </h1>
-			<br><br><br><br><br><br><br><br><br>
+			<br><br>
+			<div style="text-align: center;" class="settingsWrapper">
+				<span>Up: </span>
+				<input type="text" onkeydown="settingsKey(event,'up')" id="up">
+				<button class="changeKeyBtn" onclick="resetSettingsKey('up')">change</button>
+				<br><br>
+				<span>Down: </span>
+				<input type="text" onkeydown="settingsKey(event,'down')" id="down">
+				<button class="changeKeyBtn"onclick="resetSettingsKey('down')">change</button>
+				<br><br>
+				<span>Left: </span>
+				<input type="text" onkeydown="settingsKey(event,'left')" id="left">
+				<button class="changeKeyBtn" onclick="resetSettingsKey('left')">change</button>
+				<br><br>
+				<span>Right: </span>
+				<input type="text" onkeydown="settingsKey(event,'right')" id="right">
+				<button class="changeKeyBtn" onclick="resetSettingsKey('right')">change</button>
+				<br><br>
+				<span>Balls amount (min. 50 max. 90): </span>
+				<input type="text" id="ballsAmount" onkeypress="return /[0-9]/i.test(event.key)">
+				<br><br>
+				<span>5-Points ball color: </span>
+				<input type="text" id="smallBallColor" onkeypress="return /[a-z]/i.test(event.key)">
+				<br><br>
+				<span>15-Points ball color: </span>
+				<input type="text" id="mediumBallColor" onkeypress="return /[a-z]/i.test(event.key)">
+				<br><br>
+				<span>25-Points ball color: </span>
+				<input type="text" id="bigBallColor" onkeypress="return /[a-z]/i.test(event.key)">
+				<br><br>
+				<span>Game time in seconds(min. 60): </span>
+				<input type="text" id="gameTime" onkeypress="return /[0-9]/i.test(event.key)">
+				<br><br>
+				<span>How many monsters(min. 1 max. 4): </span>
+				<input type="text" id="monstersAmount" onkeypress="return /[0-9]/i.test(event.key)">
+				<br><br>
+				<button  id="randomise" onclick="randomSettings()">Random Settings</button>
+			</div>
+		
+			<br>
 			<div  style="text-align: center;">
-			<button id="gameBtn" onclick="goToGame()">Start Game!</button>
+			<button style="width: 270px;" id="gameBtn" onclick="goToGame()">Start Game!</button>
 		   </div>
 		  </div>
 
@@ -96,8 +135,24 @@
 				<label for="lblTime">TIME:</label>
 				<input id="lblTime" type="text" />
 			</div>
-			<div id="game">
-				<canvas id="canvas" height="600" width="600"></canvas>
+			<div id="game" style="width: 100%; display: table;">
+				<div style="width: 100%; overflow: hidden;">
+					<canvas id="canvas" height="600" width="700"  style="float: left;"></canvas>
+					<div id="settingsDetails"  style="margin-left: 720px;"> 
+						<h2> Your Settings</h2>
+						<br>
+						<p id="sett1" class="settingsDisplay" ></p>
+						<p id="sett2" class="settingsDisplay" ></p>
+						<p id="sett3" class="settingsDisplay"></p>
+						<p id="sett4" class="settingsDisplay" ></p>
+						<p id="sett5" class="settingsDisplay" ></p>
+						<p id="sett6" class="settingsDisplay"></p>
+						<p id="sett7" class="settingsDisplay" ></p> 
+						<p id="sett8" class="settingsDisplay" ></p>
+						<p id="sett9" class="settingsDisplay" ></p>
+						<p id="sett10" class="settingsDisplay" ></p>
+					</div>
+				</div>
 			</div>
 		</div>
 
