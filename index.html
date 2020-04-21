@@ -28,7 +28,7 @@
 		<div class="content"style="text-align: center;" id="welcome">
 			<br>
 			<h1 style="text-align: center;display: inline; ">Welcome To </h1>
-			<img  style="margin-left: 20px;" src="images/pacmanWelcome.gif" alt="logo" height="170px">
+			<img  style="margin-left: 20px;" src="images/pacmanWelcome.gif" alt="logo" height="250px">
 			<br><br><br>
 			<div id="btnWrapper" style="text-align: center;">
 				<button id="registerBtn" onclick="goToRegiser()">Register!</button>
@@ -36,7 +36,7 @@
 			</div>
 		  </div>
 
-		  <div class="content" id="register" style="text-align: center;">
+		  <div class="content" id="register" style="text-align: center; height: 600px;">
 			<h2>Register</h2>
 			<form id="registration" name="registration">
 
@@ -80,7 +80,7 @@
 		  </div>
 
 
-		  <div class="content" id="settings" style="height: 760px;">
+		  <div class="content" id="settings" style="height: 800px;">
 			<br>
 			<h1 style="text-align: center;">Settings Page </h1>
 			<br><br>
@@ -129,18 +129,27 @@
 		  </div>
 
 		  <div class="content" id="gameScreen">
-			<div id="score">
-				<label for="lblScore">SCORE:</label>
-				<input id="lblScore" type="text" />
+			  <div id="labaelContainer" >
+				<div id="score" style="float: left;" >
+					<label for="lblScore">SCORE:</label>
+					<input id="lblScore" type="text"  style="width: 30%; "/>
+				</div>
+				<div id="time" style="float: left;">
+					<label for="lblTime">TIME:</label>
+					<input id="lblTime" type="text" style="width: 30%;" />
+				</div>
+				<div id="lives" style="float: left;">
+					<label for="lblLives">LIVES:</label>
+					<input id="lblLives" type="text" style="width: 25%;" />
+				</div>
+				<div>
+					<button onclick="restartGame()"> New Game (Restart) </button>
+				</div>
 			</div>
-			<div id="time">
-				<label for="lblTime">TIME:</label>
-				<input id="lblTime" type="text" />
-			</div>
-			<div id="game" style="width: 100%; display: table;">
+			<div class="content" id="game" style="width: 100%; display: table;">
 				<div style="width: 100%; overflow: hidden;">
-					<canvas id="canvas" height="600" width="700"  style="float: left;"></canvas>
-					<div id="settingsDetails"  style="margin-left: 720px;"> 
+					<canvas style="border:1px black solid;" id="canvas" height="460" width="840"  style="float: left;"></canvas>
+					<div id="settingsDetails"  style="float: right; background-color: #9995ea;"> 
 						<h2> Your Settings</h2>
 						<br>
 						<p id="sett1" class="settingsDisplay" ></p>
@@ -182,8 +191,9 @@
 
 
 		<div class="footer">
-			<p style="font-size: large;"><b>Made by Nir Dzouraev and Lior Shaposhnikov</b>
-			</p>
+			<p style="font-size: large;"><b>Made by Nir Dzouraev and Lior Shaposhnikov</b>	</p>
+				<p> Contact Us: nirdz@post.bgu.ac.il, shaposhl@post.bgu.ac.il</p>
+		
 		  </div>
 
 

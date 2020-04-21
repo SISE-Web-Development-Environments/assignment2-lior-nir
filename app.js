@@ -1,9 +1,9 @@
 class ball{
-	constructor(Precentage ,color , points ) {
+	constructor(Precentage ,color , points, sizeInPixels ) {
 		this.Precentage = Precentage ;
 		this.color = color;
 		this.points = points;
-
+		this.sizeInPixels = sizeInPixels;
 	}
 }
 class Monster{
@@ -182,7 +182,7 @@ function loginToGame(){
 				if(sessionStorage.key(i) == username & item == password){
 					//found user, successful login
 					found = true;
-					alert("found the user "+username);
+					alert("Welcome back, "+username);
 					goToSettings();
 				}
 			}
@@ -202,7 +202,7 @@ function goToSettings(){
 
 /*for settings inputs */
 function settingsKey(event, id){
-	var keyChosen = event.key;
+	let keyChosen = event.key;
 	$("#"+id).val(keyChosen);
 	$("#"+id).prop('disabled', true);
 }
@@ -248,27 +248,48 @@ function settingRandomValue(value, id){
 }
 
 //Vars for game
-var upKey;
-var downKey;
-var leftKey;
-var rightKey;
+var upKeyCode;
+var downKeyCode;
+var leftKeyCode;
+var rightKeyCode;
 
 var ballAmount = 30 ;
 var NumberOfMonsters=2;
 var timeForGame = 60 ;
 
-var firstBallColor= new ball(60,"blue", 5 );
-var secondBallColor=  new ball(30,"green", 15 );
-var thirdBallColor=  new ball(10,"red", 25 );
+var firstBallColor= new ball(60,"blue", 5 ,5); //last param is size in pixels
+var secondBallColor=  new ball(30,"green", 15, 8 );
+var thirdBallColor=  new ball(10,"red", 25, 11 );
 
 var GameTime ;
 
 function goToGame(){
 	//initiate parameters from settings
-	upKey = $("#up").val();
-	downKey = $("#down").val();
-	leftKey = $("#left").val();
-	rightKey = $("#right").val();
+	if($("#up").val() === "ArrowUp"){
+		upKeyCode = 38;
+	}
+	else{
+		upKeyCode = $("#up").val().charCodeAt(0) -32;
+	}
+	if($("#down").val() === "ArrowDown"){
+		downKeyCode = 40
+	}
+	else{
+		downKeyCode = $("#down").val().charCodeAt(0) -32;
+	}
+	if($("#left").val() === "ArrowLeft"){
+		leftKeyCode = 37
+	}
+	else{
+		leftKeyCode = $("#left").val().charCodeAt(0) -32;
+	}
+	if($("#right").val() === "ArrowRight"){
+		rightKeyCode = 39
+	}
+	else{
+		rightKeyCode = $("#right").val().charCodeAt(0) -32;
+	}
+	
 	ballAmount = $("#ballsAmount").val();
 	NumberOfMonsters = $("#monstersAmount").val();
 	timeForGame = $("#gameTime").val();
@@ -276,14 +297,17 @@ function goToGame(){
 	secondBallColor.color = $("#mediumBallColor").val();
 	thirdBallColor.color = $("#bigBallColor").val();
 	//display settings in the side
-	$("#sett1").text("Up Key: "+upKey);
-	$("#sett2").text("Down Key: "+downKey);
-	$("#sett3").text("Left Key: "+leftKey);
-	$("#sett4").text("Right Key: "+rightKey);
+	$("#sett1").text("Up Key: "+$("#up").val());
+	$("#sett2").text("Down Key: "+$("#down").val());
+	$("#sett3").text("Left Key: "+$("#left").val());
+	$("#sett4").text("Right Key: "+$("#right").val());
 	$("#sett5").text("Balls amount: "+ballAmount);
 	$("#sett6").text("5-Points ball color: "+firstBallColor.color);
+	$("#sett6").css("color",firstBallColor.color);
 	$("#sett7").text("15-Points ball color: "+secondBallColor.color);
+	$("#sett7").css("color",secondBallColor.color);
 	$("#sett8").text("25-Points ball color: "+thirdBallColor.color);
+	$("#sett8").css("color",thirdBallColor.color);
 	$("#sett9").text("Game time: "+timeForGame+" seconds");
 	$("#sett10").text("Monsters amount: "+NumberOfMonsters);
 
@@ -297,6 +321,11 @@ function goToGame(){
 	pause_time = new Date();
 	tempTime = 0 ;
 	Start();
+}
+
+//called from the restart buttun in game
+function restartGame(){ //Lior, Implement it!!!!
+
 }
 
 function mixBalls() {
@@ -331,7 +360,7 @@ function mixBalls() {
 function Start() {
 	board = new Array();
 	pac_color = "yellow";
-	var cnt = 100;
+	var cnt = 180;
 	var food_remain = ballAmount;
 	var pacman_remain = 1;
 //	start_time = new Date();
@@ -340,7 +369,7 @@ function Start() {
 	let now = new Date();
 	tempTime = tempTime + (now-pause_time)/1000 ;
 	var nextBall=0;
-	for (var i = 0; i < 10; i++) {
+	for (var i = 0; i < 18; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
 		for (var j = 0; j < 10; j++) {
@@ -422,16 +451,16 @@ function findRandomEmptyCell(board) {
 }
 
 function GetKeyPressed() {
-	if (keysDown[38]) {
+	if (keysDown[upKeyCode]) { //Up
 		return 1;
 	}
-	if (keysDown[40]) {
+	if (keysDown[downKeyCode]) { //Down
 		return 2;
 	}
-	if (keysDown[37]) {
+	if (keysDown[leftKeyCode]) { //Left
 		return 3;
 	}
-	if (keysDown[39]) {
+	if (keysDown[rightKeyCode]) { //Right
 		return 4;
 	}
 	return 0;
@@ -441,21 +470,21 @@ function Draw(packmanSide) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
-	for (var i = 0; i < 10; i++) {
+	for (var i = 0; i < 18; i++) {
 		for (var j = 0; j < 10; j++) {
 			var center = new Object();
-			center.x = i * 60 + 30;
-			center.y = j * 60 + 30;
+			center.x = i * 45 + 20;
+			center.y = j * 45 + 20;
 			if (board[i][j] == 2) {
 				packmanDraw(packmanSide,center) ;
 			}else if (board[i][j] instanceof ball) {
 				context.beginPath();
-				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y,  board[i][j].sizeInPixels, 0, 2 * Math.PI); // circle
 				context.fillStyle = board[i][j].color; //color
 				context.fill();
 			} else if (board[i][j] == 4) {
 				context.beginPath();
-				context.rect(center.x - 30, center.y - 30, 60, 60);
+				context.rect(center.x - 20, center.y - 20, 45, 45);
 				context.fillStyle = "grey"; //color
 				context.fill();
 
@@ -468,7 +497,7 @@ function Draw(packmanSide) {
 		//window.alert("r:"+monsters[h].row+" c:"+monsters[h].column);
 		let x = monsters[h].row * 60 + 30;
 		let y = monsters[h].column * 60 + 30;
-		context.drawImage(monsters[h].image , x, y,60,60);
+		context.drawImage(monsters[h].image , x, y,36,36);
 		// context.beginPath();
 		// context.rect(x - 30, y - 30, 60, 60);
 		// context.fillStyle = "red"; //color
@@ -511,22 +540,22 @@ function UpdateMonstersPosition() {
 function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
-	if (x == 1) {
+	if (x == 1) { //Up
 		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
 			shape.j--;
 		}
 	}
-	if (x == 2) {
+	if (x == 2) { //Down
 		if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
 			shape.j++;
 		}
 	}
-	if (x == 3) {
+	if (x == 3) { ///Left
 		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
 			shape.i--;
 		}
 	}
-	if (x == 4) {
+	if (x == 4) { //Right
 		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
 			shape.i++;
 		}
@@ -563,38 +592,38 @@ function UpdatePosition() {
 var PackmanstartAngle = 1.15;
 var PackmanEndAngle = 0.85 ;
 var PackmanEye = new Object();
-PackmanEye.x = 5 ;
-PackmanEye.y = -15;
+PackmanEye.x = 4 ; //was 5
+PackmanEye.y = -12; // was -15
 function packmanDraw(side , center) {
 
 	if(side == 2){
 		PackmanstartAngle = 0.65;
 		PackmanEndAngle=0.35;
-		PackmanEye.x = 15 ;
-		PackmanEye.y = 5;
+		PackmanEye.x = 12 ;
+		PackmanEye.y = 4;
 	}else if(side == 1){
 		PackmanstartAngle = 1.65;
 		PackmanEndAngle=1.35;
-		PackmanEye.x = 15 ;
-		PackmanEye.y = -5;
+		PackmanEye.x = 12 ;
+		PackmanEye.y = -4;
 	}else if(side ==4){
 		PackmanstartAngle = 0.15;
 		PackmanEndAngle=1.85;
-		PackmanEye.x = 5 ;
-		PackmanEye.y = -15;
+		PackmanEye.x = 4 ;
+		PackmanEye.y = -12;
 	}else if (side == 3 ){
 		PackmanstartAngle = 1.15;
 		PackmanEndAngle=0.85;
-		PackmanEye.x = -5 ;
-		PackmanEye.y = -15;
+		PackmanEye.x = -4 ; //was -5
+		PackmanEye.y = -12; // was 15
 	}
 	context.beginPath();
-	context.arc(center.x, center.y, 30, PackmanstartAngle * Math.PI, PackmanEndAngle * Math.PI); // half circle
+	context.arc(center.x, center.y, 18, PackmanstartAngle * Math.PI, PackmanEndAngle * Math.PI); // half circle
 	context.lineTo(center.x, center.y);
 	context.fillStyle = pac_color; //color
 	context.fill();
 	context.beginPath();
-	context.arc(center.x + PackmanEye.x, center.y + PackmanEye.y, 5, 0, 2 * Math.PI); // circle
+	context.arc(center.x + PackmanEye.x, center.y + PackmanEye.y, 3, 0, 2 * Math.PI); // circle
 	context.fillStyle = "black"; //color
 	context.fill();
 }

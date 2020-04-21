@@ -30,29 +30,28 @@
 
   /* Middle column */
 	.content {
-	width: 80%;
+	width: 90%;
 	height: 470px;
 	margin-left: 25px;
 	
   }
 
    #gameScreen{
-	width: 80%;
-	height: 740px;
+	width: 90%;
+	height: 500px;
 	margin-left: 25px;
   }
 
   /* Style the footer */
 .footer {
-	background-color: #4f5fee;
-	padding: 10px;
+	background-color: #8f98ee;
+	
 	text-align: center;
-	position: relative;
-	clear: both;
-	left: 0;
+	position: fixed;
+	
 	bottom: 0;
 	width: 100%;
-	margin-top: 50px;
+	
   }
   
   /*For btns*/
