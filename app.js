@@ -36,13 +36,19 @@ var NumberOfPointsForWin = 150 ;
 
 
 var BlueMonsterImage = new Image();
-BlueMonsterImage.src = "images/blueMonster.png";
+BlueMonsterImage.src = "images/blueMonster.gif";
 
 
 var redMonsterImage = new Image();
 redMonsterImage.src = "images/redMonster.png";
 
+var orangeMonsterImage = new Image();
+orangeMonsterImage.src = "images/orangeMonster.png";
 
+var pinkMonsterImage = new Image();
+pinkMonsterImage.src = "images/pinkMonster.gif";
+
+var usernameToShow;
 
 
 var ballsMixedArray=[];
@@ -128,6 +134,7 @@ function validationSetUp(){
 			sessionStorage.setItem($("#username").val(), $("#password").val());
 			alert("Successful registration. Welcome "+$("#firstname").val()+"!");
 			$('#registration')[0].reset();
+			goToWelcome();
 			//alert($("#username").val());
 		}
 	});
@@ -183,13 +190,14 @@ function loginToGame(){
 					//found user, successful login
 					found = true;
 					alert("Welcome back, "+username);
+					usernameToShow = username;
 					goToSettings();
 				}
 			}
 			if(found == false){
 				alert("user name or password incorrect");
 			}
-			$('#logination')[0].reset();
+			//$('#logination')[0].reset();
 		}
 	});
 
@@ -205,6 +213,18 @@ function settingsKey(event, id){
 	let keyChosen = event.key;
 	$("#"+id).val(keyChosen);
 	$("#"+id).prop('disabled', true);
+	if(id === "up"){
+		upKeyCode = event.which;
+	}
+	if(id === "down"){
+		downKeyCode = event.which;
+	}
+	if(id === "left"){
+		leftKeyCode = event.which;
+	}
+	if(id === "right"){
+		rightKeyCode = event.which;
+	}
 }
 
 function resetSettingsKey(id){
@@ -219,6 +239,10 @@ function randomSettings(){
 	settingsKeyRandom("ArrowDown", "down");
 	settingsKeyRandom("ArrowLeft", "left");
 	settingsKeyRandom("ArrowRight", "right");
+	upKeyCode = 38;
+	downKeyCode = 40;
+	leftKeyCode = 37;
+	rightKeyCode = 39;
 	settingRandomValue(randomIntFromInterval(50,90), "ballsAmount");
 	settingRandomValue(randomIntFromInterval(60,120), "gameTime");
 	settingRandomValue(randomIntFromInterval(1,4), "monstersAmount");
@@ -257,6 +281,9 @@ var ballAmount = 30 ;
 var NumberOfMonsters=2;
 var timeForGame = 60 ;
 
+var columns = 18;
+var rows = 10;
+
 var firstBallColor= new ball(60,"blue", 5 ,5); //last param is size in pixels
 var secondBallColor=  new ball(30,"green", 15, 8 );
 var thirdBallColor=  new ball(10,"red", 25, 11 );
@@ -265,37 +292,53 @@ var GameTime ;
 
 function goToGame(){
 	//initiate parameters from settings
-	if($("#up").val() === "ArrowUp"){
+	if($("#up").val() === ""){
+		$("#up").val("ArrowUp");
 		upKeyCode = 38;
 	}
-	else{
-		upKeyCode = $("#up").val().charCodeAt(0) -32;
-	}
-	if($("#down").val() === "ArrowDown"){
+	
+	if($("#down").val() === ""){
+		$("#down").val("ArrowDown");
 		downKeyCode = 40
 	}
-	else{
-		downKeyCode = $("#down").val().charCodeAt(0) -32;
-	}
-	if($("#left").val() === "ArrowLeft"){
+	
+	if($("#left").val() === ""){
+		$("#left").val("ArrowLeft");
 		leftKeyCode = 37
 	}
-	else{
-		leftKeyCode = $("#left").val().charCodeAt(0) -32;
-	}
-	if($("#right").val() === "ArrowRight"){
+	
+	if($("#right").val() === ""){
+		$("#right").val("ArrowRight");
 		rightKeyCode = 39
-	}
-	else{
-		rightKeyCode = $("#right").val().charCodeAt(0) -32;
 	}
 	
 	ballAmount = $("#ballsAmount").val();
+	if(!(ballAmount >= 50 && ballAmount <= 90) ){
+		settingRandomValue(randomIntFromInterval(50,90), "ballsAmount");
+		ballAmount = $("#ballsAmount").val();
+	}
 	NumberOfMonsters = $("#monstersAmount").val();
+	if(!(NumberOfMonsters >= 1 && NumberOfMonsters <= 4) ){
+		settingRandomValue(randomIntFromInterval(1,4), "monstersAmount");
+		NumberOfMonsters = $("#monstersAmount").val();
+	}
 	timeForGame = $("#gameTime").val();
+	if(!(timeForGame >= 60) ){
+		settingRandomValue(randomIntFromInterval(60,120), "gameTime");
+		timeForGame = $("#gameTime").val();
+	}
 	firstBallColor.color = $("#smallBallColor").val();
+	if(firstBallColor.color === "" || isColor(firstBallColor.color) == false){
+		firstBallColor.color = "DarkMagenta";
+	}
 	secondBallColor.color = $("#mediumBallColor").val();
+	if(secondBallColor.color === "" || isColor(secondBallColor.color)== false){
+		secondBallColor.color = "GreenYellow";
+	}
 	thirdBallColor.color = $("#bigBallColor").val();
+	if(thirdBallColor.color === "" || isColor(thirdBallColor.color)== false){
+		thirdBallColor.color = "Peru";
+	}
 	//display settings in the side
 	$("#sett1").text("Up Key: "+$("#up").val());
 	$("#sett2").text("Down Key: "+$("#down").val());
@@ -320,12 +363,29 @@ function goToGame(){
 	start_time = new Date();
 	pause_time = new Date();
 	tempTime = 0 ;
+	$("#showUsername").text("Player: "+usernameToShow);
 	Start();
 }
 
+function isColor(strColor){ //helper function
+	var s = new Option().style;
+	s.color = strColor;
+	return s.color == strColor;
+  }
+
 //called from the restart buttun in game
 function restartGame(){ //Lior, Implement it!!!!
-
+	window.clearInterval(interval);
+	window.clearInterval(MonsterInterval);
+	context = canvas.getContext("2d");
+	score = 0 ;
+//	GameTime = new Date();
+	mixBalls();
+	start_time = new Date();
+	pause_time = new Date();
+	tempTime = 0 ;
+	NumberOfdisqualifications = 5 ;
+	Start();
 }
 
 function mixBalls() {
@@ -333,14 +393,15 @@ function mixBalls() {
 	let secondColorAmount = secondBallColor.Precentage / 100 * ballAmount ;
 	let thirdColorAmount =  ballAmount - firstColorAmount - secondColorAmount ;
 	for ( let i = 0 ; i < ballAmount ; i++){
-		if(Math.random() < firstBallColor.Precentage/100){
+		let rand = Math.random();
+		if(rand < firstBallColor.Precentage/100){
 			if(firstColorAmount>0){
 				ballsMixedArray[i] = firstBallColor;
 				firstColorAmount--;
 			}else{
 				i-- ;
 			}
-		}else if (Math.random() < (firstBallColor.Precentage+secondBallColor.Precentage)/100){
+		}else if (rand < (firstBallColor.Precentage+secondBallColor.Precentage)/100){
 			if(secondColorAmount>0){
 				ballsMixedArray[i] = secondBallColor;
 				secondColorAmount--;
@@ -382,7 +443,7 @@ function Start() {
 			) {
 				board[i][j] = 4;
 			} else {
-				var randomNum = Math.random();
+				let randomNum = Math.random();
 				if (randomNum <= (1.0 * food_remain) / cnt) {
 					food_remain--;
 					board[i][j] = ballsMixedArray[nextBall];
@@ -407,12 +468,28 @@ function Start() {
 		nextBall++;
 		food_remain--;
 	}
+
+	let pacmanStartPos = findRandomEmptyCellForPacman(board);
+	shape.i = pacmanStartPos[0];
+	shape.j = pacmanStartPos[1];
+
+	let corners = [];
+	corners[0] = [0,0] ;
+	corners[1] = [0,rows-1];
+	corners[2]=[columns-1,0];
+	corners[3]=[columns-1,rows-1];
 //	window.alert("hi!");
 	for(let i = 0 ; i < NumberOfMonsters ; i ++) {
-		let emptyCell = findRandomEmptyCell(board);
+		let emptyCell = corners[i] ; //findRandomEmptyCell(board);
 		let image = redMonsterImage;
 		if(i==0){
 			image =BlueMonsterImage;
+		}
+		if(i==1){
+			image = orangeMonsterImage;
+		}
+		if(i==2){
+			image = pinkMonsterImage;
 		}
 
 		monsters[i] = new Monster(emptyCell[0] , emptyCell[1] , image);
@@ -440,12 +517,25 @@ function Start() {
 	MonsterInterval = setInterval(UpdateMonstersPosition, monsters_TIME_OUT);
 }
 
-function findRandomEmptyCell(board) {
-	var i = Math.floor(Math.random() * 9 + 1);
-	var j = Math.floor(Math.random() * 9 + 1);
+function findRandomEmptyCellForPacman(board) {
+	let i = randomIntFromInterval(2, columns-3);
+	let j = randomIntFromInterval(2, rows-3);
+	//var i = Math.floor(Math.random() * (columns-1) + 1);
+	//var j = Math.floor(Math.random() * (rows-1) + 1);
 	while (board[i][j] != 0) {
-		i = Math.floor(Math.random() * 9 + 1);
-		j = Math.floor(Math.random() * 9 + 1);
+		i = randomIntFromInterval(2, columns-3);
+		j = randomIntFromInterval(2, rows-3);
+	}
+	return [i, j];
+}
+
+
+function findRandomEmptyCell(board) {
+	var i = Math.floor(Math.random() * (columns-1) + 1);
+	var j = Math.floor(Math.random() * (rows-1) + 1);
+	while (board[i][j] != 0) {
+		i = Math.floor(Math.random() *  (columns-1) + 1);
+		j = Math.floor(Math.random() * (rows-1) + 1);
 	}
 	return [i, j];
 }
@@ -470,8 +560,9 @@ function Draw(packmanSide) {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
-	for (var i = 0; i < 18; i++) {
-		for (var j = 0; j < 10; j++) {
+	lblLives.value = NumberOfdisqualifications;
+	for (var i = 0; i < columns; i++) {
+		for (var j = 0; j < rows; j++) {
 			var center = new Object();
 			center.x = i * 45 + 20;
 			center.y = j * 45 + 20;
@@ -495,8 +586,8 @@ function Draw(packmanSide) {
 	for (let h = 0 ; h < NumberOfMonsters ; h ++ ){
 
 		//window.alert("r:"+monsters[h].row+" c:"+monsters[h].column);
-		let x = monsters[h].row * 60 + 30;
-		let y = monsters[h].column * 60 + 30;
+		let x = monsters[h].row * 45 + 20;
+		let y = monsters[h].column * 45 + 20;
 		context.drawImage(monsters[h].image , x, y,36,36);
 		// context.beginPath();
 		// context.rect(x - 30, y - 30, 60, 60);
@@ -510,13 +601,14 @@ function UpdateMonstersPosition() {
 	for(let h = 0 ; h<NumberOfMonsters ; h++){
 		let X = value_limit(monsters[h].row - shape.i  , -1 , 1 );
 		let Y = value_limit(monsters[h].column - shape.j , -1 ,1);
-		if (monsters[h].row - X > -1 && monsters[h].row - X < 10  && board[monsters[h].row - X][monsters[h].column] != 4){
+		if (monsters[h].row - X > -1 && monsters[h].row - X < columns  && board[monsters[h].row - X][monsters[h].column] != 4){
 			monsters[h].row = monsters[h].row - X ;
 		}
-		if (monsters[h].column - Y > -1 && monsters[h].column - Y < 10 && board[monsters[h].row][monsters[h].column-Y] != 4){
+		if (monsters[h].column - Y > -1 && monsters[h].column - Y < rows && board[monsters[h].row][monsters[h].column-Y] != 4){
 			monsters[h].column = monsters[h].column - Y ;
 		}
 		if(board[monsters[h].row][monsters[h].column] == 2){
+			Draw(2);
 			window.clearInterval(interval);
 			window.clearInterval(MonsterInterval);
 			NumberOfdisqualifications -- ;
@@ -546,7 +638,7 @@ function UpdatePosition() {
 		}
 	}
 	if (x == 2) { //Down
-		if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
+		if (shape.j < rows-1 && board[shape.i][shape.j + 1] != 4) {
 			shape.j++;
 		}
 	}
@@ -556,7 +648,7 @@ function UpdatePosition() {
 		}
 	}
 	if (x == 4) { //Right
-		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
+		if (shape.i < columns-1 && board[shape.i + 1][shape.j] != 4) {
 			shape.i++;
 		}
 	}
@@ -580,11 +672,15 @@ function UpdatePosition() {
 	if (score >= NumberOfPointsForWin) {
 		window.clearInterval(interval);
 		window.clearInterval(MonsterInterval);
+		lblTime.value = time_elapsed;
 		window.alert("Winner!!!");
-	} else if(GameTime > timeForGame) {
+		score = 0;
+	} else if(time_elapsed > timeForGame) {
 		window.clearInterval(interval);
 		window.clearInterval(MonsterInterval);
+		lblTime.value = time_elapsed;
 		window.alert("You are better than "+score+" points!");
+		score = 0;
 	}else{
 		Draw(x);
 	}

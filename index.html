@@ -83,7 +83,8 @@
 		  <div class="content" id="settings" style="height: 800px;">
 			<br>
 			<h1 style="text-align: center;">Settings Page </h1>
-			<br><br>
+			<h5 style="text-align: center;">(An invalid value will be auto-replaced with valid value)</h5>
+			
 			<div style="text-align: center;" class="settingsWrapper">
 				<span>Up: </span>
 				<input type="text" onkeydown="settingsKey(event,'up')" id="up">
@@ -130,7 +131,10 @@
 
 		  <div class="content" id="gameScreen">
 			  <div id="labaelContainer" >
-				<div id="score" style="float: left;" >
+				<div style="float: left;background-color: #9995ea;">
+					<p id="showUsername" style="font-weight: bold;"> </p>
+				</div>
+				<div id="score" style="float: left; margin-left: 20px;" >
 					<label for="lblScore">SCORE:</label>
 					<input id="lblScore" type="text"  style="width: 30%; "/>
 				</div>
@@ -142,7 +146,7 @@
 					<label for="lblLives">LIVES:</label>
 					<input id="lblLives" type="text" style="width: 25%;" />
 				</div>
-				<div>
+				<div style="float: left;">
 					<button onclick="restartGame()"> New Game (Restart) </button>
 				</div>
 			</div>
