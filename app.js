@@ -6,6 +6,8 @@ class ball{
 		this.sizeInPixels = sizeInPixels;
 	}
 }
+
+
 class Monster{
 	constructor(row , column , image) {
 		this.row = row;
