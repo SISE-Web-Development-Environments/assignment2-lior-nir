@@ -30,10 +30,11 @@ var pause_time ;
 var time_elapsed;
 var interval;
 var MonsterInterval;
+var RatInterval;
 var tempTime;
 
 var NumberOfdisqualifications = 5 ;
-var NumberOfPointsForWin = 150 ;
+var NumberOfPointsForWin = 350 ;
 
 
 
@@ -49,6 +50,19 @@ orangeMonsterImage.src = "images/orangeMonster.png";
 
 var pinkMonsterImage = new Image();
 pinkMonsterImage.src = "images/pinkMonster.gif";
+
+var ratImage = new Image();
+ratImage.src = "images/rat.png";
+var ratLocation=[0,0];
+var booleanRatBeenEated = false
+var booleanMedicineActivate = false;
+var booleanCandieActivate = false;
+
+var candieImage = new Image();
+candieImage.src = "images/candie.png";
+
+var medicineImage = new Image();
+medicineImage.src = "images/medicine.jpeg";
 
 var usernameToShow;
 
@@ -290,7 +304,10 @@ var firstBallColor= new ball(60,"blue", 5 ,5); //last param is size in pixels
 var secondBallColor=  new ball(30,"green", 15, 8 );
 var thirdBallColor=  new ball(10,"red", 25, 11 );
 
-var GameTime ;
+var medicineStartPos = [];
+var candieStartPos = [];
+
+
 
 function goToGame(){
 	//initiate parameters from settings
@@ -365,6 +382,9 @@ function goToGame(){
 	start_time = new Date();
 	pause_time = new Date();
 	tempTime = 0 ;
+	window.clearInterval(interval);
+	window.clearInterval(MonsterInterval);
+	window.clearInterval(RatInterval);
 	$("#showUsername").text("Player: "+usernameToShow);
 	Start();
 }
@@ -379,6 +399,7 @@ function isColor(strColor){ //helper function
 function restartGame(){ //Lior, Implement it!!!!
 	window.clearInterval(interval);
 	window.clearInterval(MonsterInterval);
+	window.clearInterval(RatInterval);
 	context = canvas.getContext("2d");
 	score = 0 ;
 //	GameTime = new Date();
@@ -420,7 +441,13 @@ function mixBalls() {
 		}
 	}
 }
+var iterationUpdate=0;
 function Start() {
+	iterationUpdate=0;
+	ratLocation = [0,0];
+	booleanRatBeenEated = false;
+	booleanMedicineActivate = false;
+	booleanCandieActivate = false;
 	board = new Array();
 	pac_color = "yellow";
 	var cnt = 180;
@@ -441,7 +468,19 @@ function Start() {
 				(i == 3 && j == 4) ||
 				(i == 3 && j == 5) ||
 				(i == 6 && j == 1) ||
-				(i == 6 && j == 2)
+				(i == 6 && j == 2) ||
+				(i == 12 && j == 7) ||
+				(i == 13 && j == 7) ||
+				(i == 14 && j == 7) ||
+				(i == 15 && j == 7)||
+				(i == 15 && j == 6)||
+				(i == 15 && j == 5)||
+				(i == 10 && j == 3)||
+				(i == 11 && j == 3)||
+				(i == 12 && j == 3)||
+				(i == 2 && j == 8)||
+				(i == 15 && j == 2)||
+				(i == 16 && j == 2)
 			) {
 				board[i][j] = 4;
 			} else {
@@ -474,6 +513,12 @@ function Start() {
 	let pacmanStartPos = findRandomEmptyCellForPacman(board);
 	shape.i = pacmanStartPos[0];
 	shape.j = pacmanStartPos[1];
+
+	medicineStartPos = findRandomEmptyCell(board);
+	board[medicineStartPos[0]][medicineStartPos[1]] = 7 ;
+
+	candieStartPos = findRandomEmptyCell(board);
+	board[candieStartPos[0]][candieStartPos[1]] = 6 ;
 
 	let corners = [];
 	corners[0] = [0,0] ;
@@ -517,6 +562,7 @@ function Start() {
 	);
 	interval = setInterval(UpdatePosition, 250);
 	MonsterInterval = setInterval(UpdateMonstersPosition, monsters_TIME_OUT);
+	RatInterval = setInterval(UpdateRatLocation , monsters_TIME_OUT) ;
 }
 
 function findRandomEmptyCellForPacman(board) {
@@ -558,7 +604,16 @@ function GetKeyPressed() {
 	return 0;
 }
 
+var iterationsOfCandies=0;
+var currentCandieIteratin=0;
+let needDrawCandie = false;
+var packmanSideTemp = 1;
 function Draw(packmanSide) {
+	if(packmanSide<1 || packmanSide>4){
+		packmanSide = packmanSideTemp;
+	}else{
+		packmanSideTemp = packmanSide;
+	}
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
@@ -577,7 +632,7 @@ function Draw(packmanSide) {
 				context.fill();
 			} else if (board[i][j] == 4) {
 				context.beginPath();
-				context.rect(center.x - 20, center.y - 20, 45, 45);
+				context.rect(center.x - 22.5, center.y - 22.5, 45, 45);
 				context.fillStyle = "grey"; //color
 				context.fill();
 
@@ -585,20 +640,62 @@ function Draw(packmanSide) {
 		}
 	}
 
+	if(! booleanMedicineActivate){
+		context.drawImage(medicineImage,medicineStartPos[0]*45, medicineStartPos[1]*45,45,45);
+
+	}
+
+	if( !booleanRatBeenEated){
+		context.drawImage(ratImage ,ratLocation[0]*45 , ratLocation[1]*45 ,45,45);
+	}
+
+
+	if(currentCandieIteratin >= iterationsOfCandies || booleanCandieActivate){
+		currentCandieIteratin=0;
+		iterationsOfCandies = Math.round(Math.random()*28+12); // 3 - 10 sec appearence
+		if(Math.random()<0.5){
+			candieStartPos = findRandomEmptyCell(board);
+			board[candieStartPos[0]][candieStartPos[1]]=6;
+			needDrawCandie=true;
+		}else {
+			board[candieStartPos[0]][candieStartPos[1]]=0;
+			needDrawCandie=false;
+		}
+		booleanCandieActivate = false;
+	}else {
+		currentCandieIteratin++;
+	}
+	if(needDrawCandie){
+		context.drawImage(candieImage, candieStartPos[0]*45, candieStartPos[1]*45 ,45,45);
+	}
+
 	for (let h = 0 ; h < NumberOfMonsters ; h ++ ){
 
-		//window.alert("r:"+monsters[h].row+" c:"+monsters[h].column);
-		let x = monsters[h].row * 45 + 20;
-		let y = monsters[h].column * 45 + 20;
-		context.drawImage(monsters[h].image , x, y,36,36);
-		// context.beginPath();
-		// context.rect(x - 30, y - 30, 60, 60);
-		// context.fillStyle = "red"; //color
-		// context.fill();
+		let x = monsters[h].row * 45 ;
+		let y = monsters[h].column * 45 ;
+		context.drawImage(monsters[h].image , x, y,45,45);
+
 	}
 
 }
 
+
+function UpdateRatLocation() {
+	if(iterationUpdate > 1){
+		let x = value_limit(Math.round(Math.random()*5-2),-1,1);
+		let y = value_limit(Math.round(Math.random()*5-2),-1,1);
+		while ( ratLocation[0]+x >= columns || ratLocation[0]+x<0 || ratLocation[1]+y<0 || ratLocation[1]+y>=rows || board[ratLocation[0]+x][ratLocation[1]+y]==4){
+			x = value_limit(Math.round(Math.random()*6-2),-1,1);
+			y = value_limit(Math.round(Math.random()*5-2),-1,1);
+		}
+		iterationUpdate=0;
+		ratLocation = [ratLocation[0]+x ,ratLocation[1]+y] ;
+	}else{
+		iterationUpdate++;
+	}
+
+	///Draw(1111);
+}
 function UpdateMonstersPosition() {
 	for(let h = 0 ; h<NumberOfMonsters ; h++){
 		let X = value_limit(monsters[h].row - shape.i  , -1 , 1 );
@@ -610,9 +707,10 @@ function UpdateMonstersPosition() {
 			monsters[h].column = monsters[h].column - Y ;
 		}
 		if(board[monsters[h].row][monsters[h].column] == 2){
-			Draw(2);
+		//	Draw(2);
 			window.clearInterval(interval);
 			window.clearInterval(MonsterInterval);
+			window.clearInterval(RatInterval)
 			NumberOfdisqualifications -- ;
 			if(NumberOfdisqualifications<1){
 				window.alert("Loser!");
@@ -628,8 +726,7 @@ function UpdateMonstersPosition() {
 			}
 		}
 	}
-
-
+//	Draw(1111);
 }
 function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
@@ -661,8 +758,22 @@ function UpdatePosition() {
 	if(board[shape.i][shape.j] instanceof ball){
 		score=score+board[shape.i][shape.j].points;
 	}
+	if(board[shape.i][shape.j] == 6 ){
+		score = score + Math.round((Math.random()*40+1)) ;
+		booleanCandieActivate = true;
+		board[shape.i][shape.j] = 0 ;
+	}
+	if(shape.i == medicineStartPos[0] && shape.j == medicineStartPos[1] && !booleanMedicineActivate){
+		NumberOfdisqualifications++;
+		board[shape.i][shape.j] = 0 ;
+		booleanMedicineActivate = true;
+	}
 
-
+	if(shape.i == ratLocation[0] && shape.j==ratLocation[1] && !booleanRatBeenEated){
+		score = score + 50 ;
+		booleanRatBeenEated = true ;
+		board[shape.i][shape.j] = 0 ;
+	}
 
 	//-----------------------------------------------------------
 	board[shape.i][shape.j] = 2;
@@ -674,12 +785,14 @@ function UpdatePosition() {
 	if (score >= NumberOfPointsForWin) {
 		window.clearInterval(interval);
 		window.clearInterval(MonsterInterval);
+		window.clearInterval(RatInterval);
 		lblTime.value = time_elapsed;
 		window.alert("Winner!!!");
 		score = 0;
 	} else if(time_elapsed > timeForGame) {
 		window.clearInterval(interval);
 		window.clearInterval(MonsterInterval);
+		window.clearInterval(RatInterval);
 		lblTime.value = time_elapsed;
 		window.alert("You are better than "+score+" points!");
 		score = 0;
