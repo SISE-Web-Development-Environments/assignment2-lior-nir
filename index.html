@@ -14,8 +14,8 @@
 
 	<body style="background-color: #d99bd9;">
 		<div class="header">
-			<h2 style="display: inline;">PACKMAN - by Nir Dzouraev and Lior shaposhnikov</h2>
-			<img  src="images/pacman.gif" alt="logo" height="50px">
+			<h3 style="display: inline;">PACKMAN - by Nir Dzouraev and Lior shaposhnikov</h3>
+			<img  src="images/pacman.gif" alt="logo" height="30px">
 		</div>
 
 		<div class="topnav">
@@ -29,14 +29,14 @@
 			<br>
 			<h1 style="text-align: center;display: inline; ">Welcome To </h1>
 			<img  style="margin-left: 20px;" src="images/pacmanWelcome.gif" alt="logo" height="250px">
-			<br><br><br>
+			<br><br>
 			<div id="btnWrapper" style="text-align: center;">
 				<button id="registerBtn" onclick="goToRegiser()">Register!</button>
 				<button id="loginBtn" onclick="goToLogin()">Login!</button>
 			</div>
 		  </div>
 
-		  <div class="content" id="register" style="text-align: center; height: 600px;">
+		  <div class="content" id="register" style="text-align: center; height: 570px;">
 			<h2>Register</h2>
 			<form id="registration" name="registration">
 
@@ -80,7 +80,7 @@
 		  </div>
 
 
-		  <div class="content" id="settings" style="height: 800px;">
+		  <div class="content" id="settings" style="height: 775px;">
 			<br>
 			<h1 style="text-align: center;">Settings Page </h1>
 			<h5 style="text-align: center;">(An invalid value will be auto-replaced with valid value)</h5>
@@ -150,11 +150,11 @@
 					<button onclick="restartGame()"> New Game (Restart) </button>
 				</div>
 			</div>
-			<div class="content" id="game" style="width: 100%; display: table;">
-				<div style="width: 100%; overflow: hidden;">
-					<canvas style="border:1px black solid;" id="canvas" height="460" width="840"  style="float: left;"></canvas>
+			<div  id="game" style="width: 100%; display: table;">
+				<div style="overflow: hidden;">
+					<canvas style="border:1px black solid;" id="canvas" height="360" width="840"  style="float: left;"></canvas>
 					<div id="settingsDetails"  style="float: right; background-color: #9995ea;"> 
-						<h2> Your Settings</h2>
+						<h3> Your Settings</h3>
 						<br>
 						<p id="sett1" class="settingsDisplay" ></p>
 						<p id="sett2" class="settingsDisplay" ></p>
@@ -195,7 +195,7 @@
 
 
 		<div class="footer">
-			<p style="font-size: large;"><b>Made by Nir Dzouraev and Lior Shaposhnikov</b>	</p>
+			<p style="font-size: medium;"><b>Made by Nir Dzouraev and Lior Shaposhnikov</b>	</p>
 				<p> Contact Us: nirdz@post.bgu.ac.il, shaposhl@post.bgu.ac.il</p>
 		
 		  </div>

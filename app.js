@@ -36,7 +36,7 @@ var sound;
 
 
 var NumberOfdisqualifications = 5 ;
-var NumberOfPointsForWin = 350 ;
+var NumberOfPointsForWin ;
 
 
 
@@ -300,12 +300,12 @@ var ballAmount = 30 ;
 var NumberOfMonsters=2;
 var timeForGame = 60 ;
 
-var columns = 18;
+var columns = 23;
 var rows = 10;
 
-var firstBallColor= new ball(60,"blue", 5 ,5); //last param is size in pixels
-var secondBallColor=  new ball(30,"green", 15, 8 );
-var thirdBallColor=  new ball(10,"red", 25, 11 );
+var firstBallColor= new ball(60,"blue", 5 ,3); //last param is size in pixels
+var secondBallColor=  new ball(30,"green", 15, 5 );
+var thirdBallColor=  new ball(10,"red", 25, 8 );
 
 var medicineStartPos = [];
 var candieStartPos = [];
@@ -388,7 +388,7 @@ function goToGame(){
 	window.clearInterval(interval);
 	window.clearInterval(MonsterInterval);
 	window.clearInterval(RatInterval);
-	$("#showUsername").text("Player: "+usernameToShow);
+	
 	Start();
 }
 
@@ -466,7 +466,7 @@ function Start() {
 		sum = sum + ballsMixedArray[i].points ;
 	}
 	NumberOfPointsForWin = Math.round(sum*0.8) ;
-
+	$("#showUsername").text("Player: "+usernameToShow+". Score to win: "+NumberOfPointsForWin);
 	iterationUpdate=0;
 	ratLocation = [0,0];
 	booleanRatBeenEated = false;
@@ -474,7 +474,7 @@ function Start() {
 	booleanCandieActivate = false;
 	board = new Array();
 	pac_color = "yellow";
-	var cnt = 180;
+	var cnt = rows*columns;
 	var food_remain = ballAmount;
 	var pacman_remain = 1;
 //	start_time = new Date();
@@ -483,10 +483,10 @@ function Start() {
 	let now = new Date();
 	tempTime = tempTime + (now-pause_time)/1000 ;
 	var nextBall=0;
-	for (var i = 0; i < 18; i++) {
+	for (var i = 0; i < columns; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
-		for (var j = 0; j < 10; j++) {
+		for (var j = 0; j < rows; j++) {
 			if (
 				(i == 3 && j == 3) ||
 				(i == 3 && j == 4) ||
@@ -504,7 +504,16 @@ function Start() {
 				(i == 12 && j == 3)||
 				(i == 2 && j == 8)||
 				(i == 15 && j == 2)||
-				(i == 16 && j == 2)
+				(i == 19 && j == 2)||
+				(i == 19 && j == 3)||
+				(i == 20 && j == 3)||
+				(i == 21 && j == 3)||
+				(i == 22 && j == 3)||
+				(i == 19 && j == 6)||
+				(i == 20 && j == 6)||
+				(i == 21 && j == 6)||
+				(i == 22 && j == 6)||
+				(i == 19 && j == 7)
 			) {
 				board[i][j] = 4;
 			} else {
@@ -652,8 +661,8 @@ function Draw(packmanSide) {
 	for (var i = 0; i < columns; i++) {
 		for (var j = 0; j < rows; j++) {
 			var center = new Object();
-			center.x = i * 45 + 20;
-			center.y = j * 45 + 20;
+			center.x = i * 36 + 20;
+			center.y = j * 36 + 20;
 			if (board[i][j] == 2) {
 				packmanDraw(packmanSide,center) ;
 			}else if (board[i][j] instanceof ball) {
@@ -663,7 +672,7 @@ function Draw(packmanSide) {
 				context.fill();
 			} else if (board[i][j] == 4) {
 				context.beginPath();
-				context.rect(center.x - 22.5, center.y - 22.5, 45, 45);
+				context.rect(center.x - 22.5, center.y - 22.5, 36, 36);
 				context.fillStyle = "grey"; //color
 				context.fill();
 
@@ -672,12 +681,12 @@ function Draw(packmanSide) {
 	}
 
 	if(! booleanMedicineActivate){
-		context.drawImage(medicineImage,medicineStartPos[0]*45, medicineStartPos[1]*45,45,45);
+		context.drawImage(medicineImage,medicineStartPos[0]*36, medicineStartPos[1]*36,36,36);
 
 	}
 
 	if( !booleanRatBeenEated){
-		context.drawImage(ratImage ,ratLocation[0]*45 , ratLocation[1]*45 ,45,45);
+		context.drawImage(ratImage ,ratLocation[0]*36 , ratLocation[1]*36 ,36,36);
 	}
 
 
@@ -697,14 +706,14 @@ function Draw(packmanSide) {
 		currentCandieIteratin++;
 	}
 	if(needDrawCandie){
-		context.drawImage(candieImage, candieStartPos[0]*45, candieStartPos[1]*45 ,45,45);
+		context.drawImage(candieImage, candieStartPos[0]*36, candieStartPos[1]*36 ,36,36);
 	}
 
 	for (let h = 0 ; h < NumberOfMonsters ; h ++ ){
 
-		let x = monsters[h].row * 45 ;
-		let y = monsters[h].column * 45 ;
-		context.drawImage(monsters[h].image , x, y,45,45);
+		let x = monsters[h].row * 36 ;
+		let y = monsters[h].column * 36 ;
+		context.drawImage(monsters[h].image , x, y,36,36);
 
 	}
 
@@ -789,11 +798,13 @@ function UpdatePosition() {
 //--------------------------
 	if(board[shape.i][shape.j] instanceof ball){
 		score=score+board[shape.i][shape.j].points;
+		lblScore.value = score;
 	}
 	if(board[shape.i][shape.j] == 6 ){
 		score = score + Math.round((Math.random()*40+1)) ;
 		booleanCandieActivate = true;
 		board[shape.i][shape.j] = 0 ;
+		lblScore.value = score;
 	}
 	if(shape.i == medicineStartPos[0] && shape.j == medicineStartPos[1] && !booleanMedicineActivate){
 		NumberOfdisqualifications++;
@@ -803,6 +814,7 @@ function UpdatePosition() {
 
 	if(shape.i == ratLocation[0] && shape.j==ratLocation[1] && !booleanRatBeenEated){
 		score = score + 50 ;
+		lblScore.value = score;
 		booleanRatBeenEated = true ;
 		board[shape.i][shape.j] = 0 ;
 	}
@@ -811,9 +823,10 @@ function UpdatePosition() {
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000 - tempTime;
-	if (score >= 20 && time_elapsed <= 10) {
+	/*if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
-	}
+	}*/
+	lblScore.value = score;
 	if (score >= NumberOfPointsForWin) {
 		window.clearInterval(interval);
 		window.clearInterval(MonsterInterval);
@@ -821,16 +834,21 @@ function UpdatePosition() {
 		lblTime.value = Math.max(timeForGame - time_elapsed, 0);
 		sound.pause();
 		sound.currentTime = 0;
-		window.alert("Winner!!!");
+		window.alert("Winner!!! You reached the score to win. Well done.");
 		score = 0;
-	} else if(time_elapsed > timeForGame) {
+	} else if(time_elapsed > timeForGame) { //time ended
 		window.clearInterval(interval);
 		window.clearInterval(MonsterInterval);
 		window.clearInterval(RatInterval);
 		lblTime.value = Math.max(timeForGame - time_elapsed, 0);
 		sound.pause();
 		sound.currentTime = 0;
-		window.alert("You are better than "+score+" points!");
+		if(score < 100){
+			window.alert("You are better than "+score+" points!");
+		}
+		else{
+			window.alert("Winner!!! You scored more than 100 points.");
+		}
 		score = 0;
 	}else{
 		Draw(x);

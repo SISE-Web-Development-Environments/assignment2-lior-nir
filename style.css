@@ -2,11 +2,12 @@
 	background-color: #1abc9c;
 	padding: 1px;
 	text-align: center;
+	height: 30px;
   }
 
   /* Style the top navigation bar */
 .topnav {
-	height: 60px;
+	height: 40px;
 	overflow: hidden;
 	background-color: #333;
   }
@@ -17,9 +18,9 @@
 	display: block;
 	color: #f2f2f2;
 	text-align: center;
-	padding: 22px 24px;
+	padding: 11px 20px;
 	text-decoration: none;
-	font-size: large;
+	font-size: medium;
   }
   
   /* Change color on hover */
@@ -30,16 +31,16 @@
 
   /* Middle column */
 	.content {
-	width: 90%;
-	height: 470px;
-	margin-left: 25px;
+	/*width: 90%;*/
+	height: 382px;
+	/*margin-left: 25px;*/
 	
   }
 
    #gameScreen{
-	width: 90%;
-	height: 500px;
-	margin-left: 25px;
+	width: 99%;
+	height: 390px;
+	margin-left: 10px;
   }
 
   /* Style the footer */
@@ -50,6 +51,7 @@
 	position: fixed;
 	
 	bottom: 0;
+	height: 10%;
 	width: 100%;
 	
   }
@@ -124,5 +126,5 @@
 	  }
 
 .settingsDisplay{
-	font-size: large;
+	font-size: small;
 }
