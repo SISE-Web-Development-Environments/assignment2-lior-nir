@@ -102,8 +102,9 @@ function validationSetUp(){
 		return  (noNumbers.test(value));
 	}, "Must not contain numbers");
 
-	$("#registration").submit(function(e) {
-		e.preventDefault();}).validate({
+	//$("#registration").submit(function(e) {
+	//	e.preventDefault();}).validate({
+		$("#registration").validate({
 	//$("form[name='registration']").validate({
 		// Specify validation rules
 		rules: {
@@ -146,7 +147,7 @@ function validationSetUp(){
 		},
 		// Make sure the form is submitted to the destination defined
 		// in the "action" attribute of the form when valid
-		submitHandler: function(form, event) {
+		/*submitHandler: function(form, event) {
 			event.preventDefault();
 			// form.submit();
 			//var user = new Object();
@@ -157,9 +158,18 @@ function validationSetUp(){
 			$('#registration')[0].reset();
 			goToWelcome();
 			//alert($("#username").val());
-		}
+		}*/
 	});
 
+	$("#registration").submit(function(e) {
+		if($("#registration").valid()){
+			event.preventDefault();
+			sessionStorage.setItem($("#username").val(), $("#password").val());
+			alert("Successful registration. Welcome "+$("#firstname").val()+"!");
+			$('#registration')[0].reset();
+			goToWelcome();
+		}
+	});
 	/* $("#registration").submit(function(event) {
        alert( "Handler for .submit() called." );
        event.preventDefault();
@@ -192,7 +202,7 @@ function goToRegiser(){
 function goToLogin(){
 	hideAll();
 	$("#login").show();
-	alert("validation2");
+	//alert("validation2");
 	loginToGame();
 }
 
