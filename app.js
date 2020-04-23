@@ -32,6 +32,8 @@ var interval;
 var MonsterInterval;
 var RatInterval;
 var tempTime;
+var sound;
+
 
 var NumberOfdisqualifications = 5 ;
 var NumberOfPointsForWin = 350 ;
@@ -404,6 +406,7 @@ function restartGame(){ //Lior, Implement it!!!!
 	score = 0 ;
 //	GameTime = new Date();
 	mixBalls();
+
 	start_time = new Date();
 	pause_time = new Date();
 	tempTime = 0 ;
@@ -443,6 +446,10 @@ function mixBalls() {
 }
 var iterationUpdate=0;
 function Start() {
+	sound =  document.getElementById( "gameSound" );
+	sound.pause();
+	sound.currentTime = 0;
+	sound.play();
 	iterationUpdate=0;
 	ratLocation = [0,0];
 	booleanRatBeenEated = false;
@@ -712,6 +719,8 @@ function UpdateMonstersPosition() {
 			window.clearInterval(MonsterInterval);
 			window.clearInterval(RatInterval)
 			NumberOfdisqualifications -- ;
+			sound.pause();
+			sound.currentTime = 0;
 			if(NumberOfdisqualifications<1){
 				window.alert("Loser!");
 			}else{
@@ -787,6 +796,8 @@ function UpdatePosition() {
 		window.clearInterval(MonsterInterval);
 		window.clearInterval(RatInterval);
 		lblTime.value = time_elapsed;
+		sound.pause();
+		sound.currentTime = 0;
 		window.alert("Winner!!!");
 		score = 0;
 	} else if(time_elapsed > timeForGame) {
@@ -794,6 +805,8 @@ function UpdatePosition() {
 		window.clearInterval(MonsterInterval);
 		window.clearInterval(RatInterval);
 		lblTime.value = time_elapsed;
+		sound.pause();
+		sound.currentTime = 0;
 		window.alert("You are better than "+score+" points!");
 		score = 0;
 	}else{
