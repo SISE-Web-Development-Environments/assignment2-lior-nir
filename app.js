@@ -32,6 +32,8 @@ var interval;
 var MonsterInterval;
 var RatInterval;
 var tempTime;
+var sound;
+
 
 var NumberOfdisqualifications = 5 ;
 var NumberOfPointsForWin = 350 ;
@@ -397,7 +399,7 @@ function isColor(strColor){ //helper function
   }
 
 //called from the restart buttun in game
-function restartGame(){ 
+function restartGame(){
 	window.clearInterval(interval);
 	window.clearInterval(MonsterInterval);
 	window.clearInterval(RatInterval);
@@ -416,6 +418,9 @@ function endGame(){
 	window.clearInterval(interval);
 	window.clearInterval(MonsterInterval);
 	window.clearInterval(RatInterval);
+	sound =  document.getElementById( "gameSound" );
+	sound.pause();
+	sound.currentTime = 0;
 	context = canvas.getContext("2d");
 	score = 0 ;
 	start_time = new Date();
@@ -456,6 +461,10 @@ function mixBalls() {
 }
 var iterationUpdate=0;
 function Start() {
+	sound =  document.getElementById( "gameSound" );
+	sound.pause();
+	sound.currentTime = 0;
+	sound.play();
 	iterationUpdate=0;
 	ratLocation = [0,0];
 	booleanRatBeenEated = false;
@@ -725,6 +734,8 @@ function UpdateMonstersPosition() {
 			window.clearInterval(MonsterInterval);
 			window.clearInterval(RatInterval)
 			NumberOfdisqualifications -- ;
+			sound.pause();
+			sound.currentTime = 0;
 			if(NumberOfdisqualifications<1){
 				window.alert("Loser!");
 			}else{
@@ -800,6 +811,8 @@ function UpdatePosition() {
 		window.clearInterval(MonsterInterval);
 		window.clearInterval(RatInterval);
 		lblTime.value = Math.max(timeForGame - time_elapsed, 0);
+		sound.pause();
+		sound.currentTime = 0;
 		window.alert("Winner!!!");
 		score = 0;
 	} else if(time_elapsed > timeForGame) {
@@ -807,6 +820,8 @@ function UpdatePosition() {
 		window.clearInterval(MonsterInterval);
 		window.clearInterval(RatInterval);
 		lblTime.value = Math.max(timeForGame - time_elapsed, 0);
+		sound.pause();
+		sound.currentTime = 0;
 		window.alert("You are better than "+score+" points!");
 		score = 0;
 	}else{
