@@ -83,14 +83,7 @@ $(document).ready(function() {
 	goToWelcome();
 	//$("#gameScreen").hide();
 	$("#settings").hide();
-	// context = canvas.getContext("2d");
-	// context.drawImage(redMonsterImage,0,0,60,60);
-	// score = 0 ;
-	// GameTime = new Date();
-	// mixBalls();
-//	Start();
-});
-function validationSetUp(){
+
 
 	jQuery.validator.addMethod("containsNumAndLetters", function(value, element) {
 		var letterNumber = /(?:[A-Za-z].*?\d|\d.*?[A-Za-z])/;
@@ -102,9 +95,60 @@ function validationSetUp(){
 		return  (noNumbers.test(value));
 	}, "Must not contain numbers");
 
+	$("#registration").validate({
+		//$("form[name='registration']").validate({
+			// Specify validation rules
+			rules: {
+				// The key name on the left side is the name attribute
+				// of an input field. Validation rules are defined
+				// on the right side
+				username: "required",
+				firstname: {
+					required: true,
+					notContainsNumbers: true
+				},
+				lastname: {
+					required: true,
+					notContainsNumbers: true
+				},
+				date: "required",
+				email: {
+					required: true,
+					// Specify that email should be validated
+					// by the built-in "email" rule
+					email: true
+				},
+				password: {
+					required: true,
+					minlength: 6,
+					containsNumAndLetters: true
+				}
+			},
+			// Specify validation error messages
+			messages: {
+				username: "Please enter your user name",
+				firstname: {required: "Please enter your first name"},
+				lastname:{required: "Please enter your last name"},
+				date: "Please enter your birth date",
+				password: {
+					required: "Please provide a password",
+					minlength: "Your password must be at least 6 characters long"
+				},
+				email: "Please enter a valid email address"
+			}});
+	// context = canvas.getContext("2d");
+	// context.drawImage(redMonsterImage,0,0,60,60);
+	// score = 0 ;
+	// GameTime = new Date();
+	// mixBalls();
+//	Start();
+});
+function validationSetUp(){
+
+	
 	//$("#registration").submit(function(e) {
 	//	e.preventDefault();}).validate({
-		$("#registration").validate({
+	/*	$("#registration").validate({
 	//$("form[name='registration']").validate({
 		// Specify validation rules
 		rules: {
@@ -159,7 +203,7 @@ function validationSetUp(){
 			goToWelcome();
 			//alert($("#username").val());
 		}*/
-	});
+	//});
 
 //	$("#registration").submit(function(e) {
 		if($("#registration").valid()){
