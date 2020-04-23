@@ -102,7 +102,9 @@ function validationSetUp(){
 		return  (noNumbers.test(value));
 	}, "Must not contain numbers");
 
-	$("form[name='registration']").validate({
+	$("#registration").submit(function(e) {
+		e.preventDefault();}).validate({
+	//$("form[name='registration']").validate({
 		// Specify validation rules
 		rules: {
 			// The key name on the left side is the name attribute
@@ -190,6 +192,7 @@ function goToRegiser(){
 function goToLogin(){
 	hideAll();
 	$("#login").show();
+	alert("validation");
 	loginToGame();
 }
 
@@ -198,9 +201,10 @@ function processForm(){
 }
 
 function loginToGame(){
-	$("form[name='logination']").validate({
+	$("#logination").submit(function(e) {
+		e.preventDefault();}).validate({
+	//$("form[name='logination']").validate({
 		submitHandler: function(form,event) {
-			alert("validation");
 			event.preventDefault();
 			let username = $("#usernameLog").val();
 			let password = $("#passwordLog").val();
