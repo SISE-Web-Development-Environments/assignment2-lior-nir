@@ -38,7 +38,7 @@
 
 		  <div class="content" id="register" style="text-align: center; height: 570px;">
 			<h2>Register</h2>
-			<form id="registration" name="registration">
+			<form id="registration" name="registration"  onsubmit="return validationSetUp()">
 
 				<label for="username">User Name</label>
 				<input type="text" name="username" id="username"/>
@@ -66,7 +66,7 @@
 
 		  <div class="content" id="login"  style="text-align: center;">
 			<h2>Login</h2>
-			<form  id="logination" name="logination">
+			<form  id="logination" name="logination" onsubmit="return loginToGame()">
 
 				<label for="usernameLog">User Name</label>
 				<input type="text" name="usernameLog" id="usernameLog"/>

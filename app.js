@@ -161,19 +161,20 @@ function validationSetUp(){
 		}*/
 	});
 
-	$("#registration").submit(function(e) {
+//	$("#registration").submit(function(e) {
 		if($("#registration").valid()){
-			event.preventDefault();
+		//	event.preventDefault();
 			sessionStorage.setItem($("#username").val(), $("#password").val());
 			alert("Successful registration. Welcome "+$("#firstname").val()+"!");
 			$('#registration')[0].reset();
 			goToWelcome();
 		}
-	});
+//	});
 	/* $("#registration").submit(function(event) {
        alert( "Handler for .submit() called." );
        event.preventDefault();
-     });*/
+	 });*/
+	 return false;
 }
 
 function hideAll(){
@@ -196,14 +197,14 @@ function goToRegiser(){
 	$( function() {
 		$( "#datepicker" ).datepicker();
 	} );
-	validationSetUp();
+	//validationSetUp();
 }
 
 function goToLogin(){
 	hideAll();
 	$("#login").show();
 	//alert("validation2");
-	loginToGame();
+	//loginToGame();
 }
 
 function processForm(){
@@ -211,8 +212,9 @@ function processForm(){
 }
 
 function loginToGame(){
-	$("#logination").submit(function(e) {
-		e.preventDefault();//})//.validate({
+	//$("#logination").submit(function(e) {
+	//	alert("here");
+	//	e.preventDefault();//})//.validate({
 	//$("form[name='logination']").validate({
 	//	submitHandler: function(form,event) {
 		//	event.preventDefault();
@@ -234,7 +236,8 @@ function loginToGame(){
 				alert("user name or password incorrect");
 			}
 			//$('#logination')[0].reset();
-		});
+		//});
+		return false;
 	//});
 
 }
