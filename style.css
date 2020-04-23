@@ -128,3 +128,7 @@
 .settingsDisplay{
 	font-size: small;
 }
+
+li{
+	margin-left: -22px;
+}
