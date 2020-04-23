@@ -84,7 +84,7 @@ $(document).ready(function() {
 	//$("#gameScreen").hide();
 	$("#settings").hide();
 
-
+/*
 	jQuery.validator.addMethod("containsNumAndLetters", function(value, element) {
 		var letterNumber = /(?:[A-Za-z].*?\d|\d.*?[A-Za-z])/;
 		return  (letterNumber.test(value));
@@ -93,9 +93,9 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("notContainsNumbers", function(value, element) {
 		var noNumbers = /^([^0-9]*)$/		;
 		return  (noNumbers.test(value));
-	}, "Must not contain numbers");
+	}, "Must not contain numbers");*/
 
-	$("#registration").validate({
+	/*$("#registration").validate({
 		//$("form[name='registration']").validate({
 			// Specify validation rules
 			rules: {
@@ -135,7 +135,7 @@ $(document).ready(function() {
 					minlength: "Your password must be at least 6 characters long"
 				},
 				email: "Please enter a valid email address"
-			}});
+			}});*/
 	// context = canvas.getContext("2d");
 	// context.drawImage(redMonsterImage,0,0,60,60);
 	// score = 0 ;
@@ -206,18 +206,22 @@ function validationSetUp(){
 	//});
 
 //	$("#registration").submit(function(e) {
-		if($("#registration").valid()){
-		//	event.preventDefault();
+
+	/*	if($("#registration").valid()){
 			sessionStorage.setItem($("#username").val(), $("#password").val());
 			alert("Successful registration. Welcome "+$("#firstname").val()+"!");
 			$('#registration')[0].reset();
 			goToWelcome();
-		}
+		}*/
 //	});
 	/* $("#registration").submit(function(event) {
        alert( "Handler for .submit() called." );
        event.preventDefault();
 	 });*/
+	 sessionStorage.setItem($("#username").val(), $("#password").val());
+	 alert("Successful registration. Welcome "+$("#firstname").val()+"!");
+			$('#registration')[0].reset();
+			goToWelcome();
 	 return false;
 }
 
