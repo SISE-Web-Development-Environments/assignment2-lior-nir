@@ -144,7 +144,7 @@ function validationSetUp(){
 				minlength: "Your password must be at least 6 characters long"
 			},
 			email: "Please enter a valid email address"
-		},
+		}
 		// Make sure the form is submitted to the destination defined
 		// in the "action" attribute of the form when valid
 		/*submitHandler: function(form, event) {
