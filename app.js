@@ -543,6 +543,13 @@ function Start() {
 		food_remain--;
 	}
 
+
+	medicineStartPos = findRandomEmptyCell(board);
+	board[medicineStartPos[0]][medicineStartPos[1]] = 7 ;
+
+	candieStartPos = findRandomEmptyCell(board);
+	board[candieStartPos[0]][candieStartPos[1]] = 6 ;
+
 	locateCharactersAndAddListeners();
 	//window.alert("done!");
 
@@ -661,8 +668,8 @@ function Draw(packmanSide) {
 	for (var i = 0; i < columns; i++) {
 		for (var j = 0; j < rows; j++) {
 			var center = new Object();
-			center.x = i * 36 + 20;
-			center.y = j * 36 + 20;
+			center.x = i * 36 + 18;
+			center.y = j * 36 + 18;
 			if (board[i][j] == 2) {
 				packmanDraw(packmanSide,center) ;
 			}else if (board[i][j] instanceof ball) {
@@ -672,7 +679,7 @@ function Draw(packmanSide) {
 				context.fill();
 			} else if (board[i][j] == 4) {
 				context.beginPath();
-				context.rect(center.x - 22.5, center.y - 22.5, 36, 36);
+				context.rect(center.x - 18, center.y - 18, 36, 36);
 				context.fillStyle = "grey"; //color
 				context.fill();
 
@@ -688,7 +695,6 @@ function Draw(packmanSide) {
 	if( !booleanRatBeenEated){
 		context.drawImage(ratImage ,ratLocation[0]*36 , ratLocation[1]*36 ,36,36);
 	}
-
 
 	if(currentCandieIteratin >= iterationsOfCandies || booleanCandieActivate){
 		currentCandieIteratin=0;
