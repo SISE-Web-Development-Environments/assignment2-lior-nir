@@ -144,7 +144,8 @@ function validationSetUp(){
 		},
 		// Make sure the form is submitted to the destination defined
 		// in the "action" attribute of the form when valid
-		submitHandler: function(form) {
+		submitHandler: function(form, event) {
+			event.preventDefault();
 			// form.submit();
 			//var user = new Object();
 			//user.username = username.value;
@@ -198,7 +199,8 @@ function processForm(){
 
 function loginToGame(){
 	$("form[name='logination']").validate({
-		submitHandler: function(form) {
+		submitHandler: function(form,event) {
+			event.preventDefault();
 			let username = $("#usernameLog").val();
 			let password = $("#passwordLog").val();
 			//check if exists in the system
