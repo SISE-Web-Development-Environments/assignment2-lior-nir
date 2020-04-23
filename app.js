@@ -461,10 +461,12 @@ function mixBalls() {
 }
 var iterationUpdate=0;
 function Start() {
-	sound =  document.getElementById( "gameSound" );
-	sound.pause();
-	sound.currentTime = 0;
-	sound.play();
+	let sum = 0 ;
+	for(let i=0 ; i < ballsMixedArray.length ; i ++){
+		sum = sum + ballsMixedArray[i].points ;
+	}
+	NumberOfPointsForWin = Math.round(sum*0.8) ;
+
 	iterationUpdate=0;
 	ratLocation = [0,0];
 	booleanRatBeenEated = false;
@@ -532,15 +534,24 @@ function Start() {
 		food_remain--;
 	}
 
+	locateCharactersAndAddListeners();
+	//window.alert("done!");
+
+
+}
+
+function locateCharactersAndAddListeners() {
+	sound =  document.getElementById( "gameSound" );
+	sound.pause();
+	sound.currentTime = 0;
+	sound.play();
+
+	if(board[shape.i][shape.j] == 2){
+		board[shape.i][shape.j] = 0;
+	}
 	let pacmanStartPos = findRandomEmptyCellForPacman(board);
 	shape.i = pacmanStartPos[0];
 	shape.j = pacmanStartPos[1];
-
-	medicineStartPos = findRandomEmptyCell(board);
-	board[medicineStartPos[0]][medicineStartPos[1]] = 7 ;
-
-	candieStartPos = findRandomEmptyCell(board);
-	board[candieStartPos[0]][candieStartPos[1]] = 6 ;
 
 	let corners = [];
 	corners[0] = [0,0] ;
@@ -565,7 +576,6 @@ function Start() {
 		//window.alert("r:"+monsters[i].row+" c:"+monsters[i].column);
 		board[emptyCell[0]][emptyCell[1]] = 5 ; ////////////////////////////////////////////// fix later need to be not 5
 	}
-	//window.alert("done!");
 
 	keysDown = {};
 	addEventListener(
@@ -586,7 +596,6 @@ function Start() {
 	MonsterInterval = setInterval(UpdateMonstersPosition, monsters_TIME_OUT);
 	RatInterval = setInterval(UpdateRatLocation , monsters_TIME_OUT) ;
 }
-
 function findRandomEmptyCellForPacman(board) {
 	let i = randomIntFromInterval(2, columns-3);
 	let j = randomIntFromInterval(2, rows-3);
@@ -745,8 +754,7 @@ function UpdateMonstersPosition() {
 					score = 0 ;
 				}
 				window.alert("Lives remaining: "+NumberOfdisqualifications);
-				mixBalls();
-				Start();
+				locateCharactersAndAddListeners();
 			}
 		}
 	}
