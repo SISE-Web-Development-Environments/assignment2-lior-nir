@@ -200,6 +200,7 @@ function processForm(){
 function loginToGame(){
 	$("form[name='logination']").validate({
 		submitHandler: function(form,event) {
+			alert("validation");
 			event.preventDefault();
 			let username = $("#usernameLog").val();
 			let password = $("#passwordLog").val();
