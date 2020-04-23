@@ -52,17 +52,17 @@ var pinkMonsterImage = new Image();
 pinkMonsterImage.src = "images/pinkMonster.gif";
 
 var ratImage = new Image();
-ratImage.src = "images/rat.png";
+ratImage.src = "images/rat2.gif";
 var ratLocation=[0,0];
 var booleanRatBeenEated = false
 var booleanMedicineActivate = false;
 var booleanCandieActivate = false;
 
 var candieImage = new Image();
-candieImage.src = "images/candie.png";
+candieImage.src = "images/candy.gif";
 
 var medicineImage = new Image();
-medicineImage.src = "images/medicine.jpeg";
+medicineImage.src = "images/medicine2.gif";
 
 var usernameToShow;
 
@@ -167,6 +167,7 @@ function hideAll(){
 	$("#register").hide();
 	$("#gameScreen").hide();
 	$("#settings").hide();
+	endGame();
 }
 
 function goToWelcome(){
@@ -396,7 +397,7 @@ function isColor(strColor){ //helper function
   }
 
 //called from the restart buttun in game
-function restartGame(){ //Lior, Implement it!!!!
+function restartGame(){ 
 	window.clearInterval(interval);
 	window.clearInterval(MonsterInterval);
 	window.clearInterval(RatInterval);
@@ -409,6 +410,18 @@ function restartGame(){ //Lior, Implement it!!!!
 	tempTime = 0 ;
 	NumberOfdisqualifications = 5 ;
 	Start();
+}
+
+function endGame(){
+	window.clearInterval(interval);
+	window.clearInterval(MonsterInterval);
+	window.clearInterval(RatInterval);
+	context = canvas.getContext("2d");
+	score = 0 ;
+	start_time = new Date();
+	pause_time = new Date();
+	tempTime = 0 ;
+	NumberOfdisqualifications = 5 ;
 }
 
 function mixBalls() {
@@ -616,7 +629,7 @@ function Draw(packmanSide) {
 	}
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
-	lblTime.value = time_elapsed;
+	lblTime.value = Math.max(timeForGame - time_elapsed, 0);
 	lblLives.value = NumberOfdisqualifications;
 	for (var i = 0; i < columns; i++) {
 		for (var j = 0; j < rows; j++) {
@@ -720,7 +733,7 @@ function UpdateMonstersPosition() {
 				if(score < 0 ){
 					score = 0 ;
 				}
-				window.alert("Number of stayed games:"+NumberOfdisqualifications);
+				window.alert("Lives remaining: "+NumberOfdisqualifications);
 				mixBalls();
 				Start();
 			}
@@ -786,14 +799,14 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		window.clearInterval(MonsterInterval);
 		window.clearInterval(RatInterval);
-		lblTime.value = time_elapsed;
+		lblTime.value = Math.max(timeForGame - time_elapsed, 0);
 		window.alert("Winner!!!");
 		score = 0;
 	} else if(time_elapsed > timeForGame) {
 		window.clearInterval(interval);
 		window.clearInterval(MonsterInterval);
 		window.clearInterval(RatInterval);
-		lblTime.value = time_elapsed;
+		lblTime.value = Math.max(timeForGame - time_elapsed, 0);
 		window.alert("You are better than "+score+" points!");
 		score = 0;
 	}else{
