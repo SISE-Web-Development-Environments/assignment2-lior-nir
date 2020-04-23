@@ -656,7 +656,7 @@ function Draw(packmanSide) {
 	}
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
-	lblTime.value = Math.max(timeForGame - time_elapsed, 0);
+	lblTime.value = Math.max(timeForGame - time_elapsed, 0).toFixed(2);
 	lblLives.value = NumberOfdisqualifications;
 	for (var i = 0; i < columns; i++) {
 		for (var j = 0; j < rows; j++) {
@@ -831,7 +831,7 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		window.clearInterval(MonsterInterval);
 		window.clearInterval(RatInterval);
-		lblTime.value = Math.max(timeForGame - time_elapsed, 0);
+		lblTime.value = Math.max(timeForGame - time_elapsed, 0).toFixed(2);
 		sound.pause();
 		sound.currentTime = 0;
 		window.alert("Winner!!! You reached the score to win. Well done.");
@@ -840,7 +840,7 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		window.clearInterval(MonsterInterval);
 		window.clearInterval(RatInterval);
-		lblTime.value = Math.max(timeForGame - time_elapsed, 0);
+		lblTime.value = Math.max(timeForGame - time_elapsed, 0).toFixed(2);
 		sound.pause();
 		sound.currentTime = 0;
 		if(score < 100){
