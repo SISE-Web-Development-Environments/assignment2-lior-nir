@@ -192,7 +192,7 @@ function goToRegiser(){
 function goToLogin(){
 	hideAll();
 	$("#login").show();
-	alert("validation");
+	alert("validation2");
 	loginToGame();
 }
 
@@ -202,10 +202,10 @@ function processForm(){
 
 function loginToGame(){
 	$("#logination").submit(function(e) {
-		e.preventDefault();}).validate({
+		e.preventDefault();//})//.validate({
 	//$("form[name='logination']").validate({
-		submitHandler: function(form,event) {
-			event.preventDefault();
+	//	submitHandler: function(form,event) {
+		//	event.preventDefault();
 			let username = $("#usernameLog").val();
 			let password = $("#passwordLog").val();
 			//check if exists in the system
@@ -224,8 +224,8 @@ function loginToGame(){
 				alert("user name or password incorrect");
 			}
 			//$('#logination')[0].reset();
-		}
-	});
+		});
+	//});
 
 }
 
