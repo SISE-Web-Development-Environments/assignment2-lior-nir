@@ -921,7 +921,7 @@ function UpdatePosition() {
 			window.alert("You are better than "+score+" points!");
 		}
 		else{
-			window.alert("Winner!!! You scored more than 100 points.");
+			window.alert("Winner!!! You scored more than 100 points. You scored "+score);
 		}
 		score = 0;
 	}else{
